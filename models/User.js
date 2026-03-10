@@ -1,20 +1,22 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const bcrypt   = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true, trim: true },
-  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+  name:     { type: String, required: true, trim: true },
+  email:    { type: String, required: true, unique: true, lowercase: true, trim: true },
   password: { type: String, required: true, minlength: 8 },
-  plan: { type: String, enum: ['free', 'pro'], default: 'free' },
-  credits: { type: Number, default: 200 },
-  stripeCustomerId: { type: String },
+  plan:     { type: String, enum: ['free', 'pro'], default: 'free' },
+  credits:  { type: Number, default: 200 },
+  lastCreditReset: { type: Date, default: Date.now },
+  viewedProfiles:  { type: [String], default: [] },
+  stripeCustomerId:     { type: String },
   stripeSubscriptionId: { type: String },
   savedContacts: [
     {
-      name: String,
-      title: String,
+      name:    String,
+      title:   String,
       company: String,
-      emails: Array,
+      emails:  Array,
       savedAt: { type: Date, default: Date.now }
     }
   ],
