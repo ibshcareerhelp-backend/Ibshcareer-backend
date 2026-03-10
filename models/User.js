@@ -9,24 +9,26 @@ const userSchema = new mongoose.Schema({
   credits: { type: Number, default: 200 },
   stripeCustomerId: { type: String },
   stripeSubscriptionId: { type: String },
-  savedContacts: [{
-    name: String,
-    title: String,
-    company: String,
-    emails: Array,
-    savedAt: { type: Date, default: Date.now }
-  }],
+  savedContacts: [
+    {
+      name: String,
+      title: String,
+      company: String,
+      emails: Array,
+      savedAt: { type: Date, default: Date.now }
+    }
+  ],
   createdAt: { type: Date, default: Date.now }
 });
 
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 
-userSchema.methods.comparePassword = async function (plain) {
+userSchema.methods.comparePassword = async function(plain) {
   return bcrypt.compare(plain, this.password);
 };
 
-module.exports = mongoose.model('User
+module.exports = mongoose.model('User', userSchema);
