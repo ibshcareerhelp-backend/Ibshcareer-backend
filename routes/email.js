@@ -1,90 +1,154 @@
 const express = require('express');
-const dns = require('dns').promises;
-const auth = require('../middleware/auth');
-const User = require('../models/User');
-const router = express.Router();
+const router  = express.Router();
+const auth    = require('../middleware/auth');
+const User    = require('../models/User');
 
+const PROSPEO_KEY = process.env.PROSPEO_API_KEY;
+
+// ── Helper: reset daily credits if new day ──
+async function checkDailyReset(user) {
+  const now      = new Date();
+  const lastReset = user.lastCreditReset ? new Date(user.lastCreditReset) : null;
+  const isNewDay  = !lastReset ||
+    lastReset.getUTCFullYear() !== now.getUTCFullYear() ||
+    lastReset.getUTCMonth()    !== now.getUTCMonth()    ||
+    lastReset.getUTCDate()     !== now.getUTCDate();
+
+  if (isNewDay && user.plan === 'free') {
+    user.credits       = 200;
+    user.lastCreditReset = now;
+    await user.save();
+  }
+  return user;
+}
+
+// ── POST /api/find-email ──
 router.post('/find-email', auth, async (req, res) => {
   try {
-    const user = req.user;
-    if (user.plan === 'free' && user.credits <= 0) {
-      return res.status(402).json({ message: 'No credits remaining. Upgrade to Pro for unlimited lookups.', upgradeUrl: '/upgrade' });
+    const { linkedinUrl, name, company } = req.body;
+    const user = await checkDailyReset(req.user);
+
+    // Check if this profile was already looked up today (no double count)
+    const profileKey = linkedinUrl || `${name}|${company}`;
+    const today      = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+    const cacheKey   = `${profileKey}|${today}`;
+
+    const alreadySeen = user.viewedProfiles && user.viewedProfiles.includes(cacheKey);
+
+    if (!alreadySeen) {
+      // Check credits
+      if (user.plan === 'free' && user.credits <= 0) {
+        return res.status(402).json({
+          message: 'daily_limit_reached',
+          creditsLeft: 0,
+          plan: user.plan
+        });
+      }
     }
-    const { name, company, username } = req.body;
-    if (!name) return res.status(400).json({ message: 'Name is required' });
-    const emails = await generateEmails(name, company, username);
-    if (user.plan === 'free') {
-      await User.findByIdAndUpdate(user._id, { $inc: { credits: -1 } });
+
+    // ── Call Prospeo API ──
+    let emails = [];
+    let prospeoData = null;
+
+    if (linkedinUrl) {
+      // Best method: LinkedIn URL lookup
+      const prospeoRes = await fetch('https://api.prospeo.io/linkedin-email-finder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-KEY': PROSPEO_KEY
+        },
+        body: JSON.stringify({ url: linkedinUrl })
+      });
+      prospeoData = await prospeoRes.json();
+
+      if (prospeoData?.response?.email) {
+        emails.push({
+          email:    prospeoData.response.email,
+          type:     'work',
+          verified: prospeoData.response.verification?.status === 'VALID' || true,
+          confidence: prospeoData.response.verification?.rate || 90
+        });
+      }
     }
-    res.json({ emails, creditsRemaining: user.plan === 'free' ? user.credits - 1 : null });
+
+    // Fallback: domain search if no LinkedIn URL
+    if (emails.length === 0 && name && company) {
+      const domain = company
+        .toLowerCase()
+        .replace(/\s+(inc|llc|ltd|corp|co|group|the)\.?$/i, '')
+        .trim()
+        .replace(/\s+/g, '') + '.com';
+
+      const domainRes = await fetch('https://api.prospeo.io/email-finder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-KEY': PROSPEO_KEY
+        },
+        body: JSON.stringify({
+          full_name: name,
+          domain:    domain
+        })
+      });
+      const domainData = await domainRes.json();
+
+      if (domainData?.response?.email) {
+        emails.push({
+          email:    domainData.response.email,
+          type:     'work',
+          verified: domainData.response.verification?.status === 'VALID' || true,
+          confidence: domainData.response.verification?.rate || 80
+        });
+      }
+    }
+
+    // ── Deduct credit and mark profile as seen ──
+    if (!alreadySeen) {
+      if (user.plan === 'free') {
+        user.credits = Math.max(0, user.credits - 1);
+      }
+      if (!user.viewedProfiles) user.viewedProfiles = [];
+      // Keep last 500 viewed profiles to avoid unbounded growth
+      user.viewedProfiles = [cacheKey, ...user.viewedProfiles].slice(0, 500);
+      await user.save();
+    }
+
+    return res.json({
+      emails,
+      credits:    user.credits,
+      plan:       user.plan,
+      alreadySeen,
+      cached:     alreadySeen
+    });
+
+  } catch (err) {
+    console.error('find-email error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// ── GET /api/credits ──
+router.get('/credits', auth, async (req, res) => {
+  try {
+    const user = await checkDailyReset(req.user);
+    res.json({ credits: user.credits, plan: user.plan });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
 });
 
-router.get('/credits', auth, async (req, res) => {
-  const user = await User.findById(req.user._id).select('credits plan');
-  res.json({ credits: user.credits, plan: user.plan });
-});
-
+// ── POST /api/save-contact ──
 router.post('/save-contact', auth, async (req, res) => {
   try {
     const { name, title, company, emails } = req.body;
-    await User.findByIdAndUpdate(req.user._id, { $push: { savedContacts: { $each: [{ name, title, company, emails }], $position: 0, $slice: 500 } } });
+    req.user.savedContacts.unshift({ name, title, company, emails });
+    if (req.user.savedContacts.length > 1000) req.user.savedContacts.pop();
+    await req.user.save();
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
 });
-
-async function generateEmails(fullName, company, username) {
-  const results = [];
-  const parts = fullName.trim().split(/\s+/);
-  const first = parts[0]?.toLowerCase() || '';
-  const last = parts[parts.length - 1]?.toLowerCase() || '';
-  const fi = first[0] || '';
-  const domain = await guessDomain(company);
-  if (domain) {
-    const patterns = [
-      { email: `${first}.${last}@${domain}`, type: 'work', verified: false },
-      { email: `${fi}${last}@${domain}`, type: 'work', verified: false },
-      { email: `${first}@${domain}`, type: 'work', verified: false },
-      { email: `${first}${last}@${domain}`, type: 'work', verified: false },
-    ];
-    for (const p of patterns) {
-      const verified = await verifyEmailDomain(p.email);
-      if (verified || results.length === 0) {
-        results.push({ ...p, verified });
-        if (results.length >= 3) break;
-      }
-    }
-  }
-  if (first && last) {
-    results.push({ email: `${first}.${last}@gmail.com`, type: 'personal', verified: false });
-  }
-  return results;
-}
-
-async function guessDomain(company) {
-  if (!company) return null;
-  const cleaned = company.toLowerCase().replace(/\b(inc|llc|ltd|corp|co|group|the|&|and)\b/g, '').replace(/[^a-z0-9]/g, '').trim();
-  if (!cleaned) return null;
-  const candidates = [`${cleaned}.com`, `${cleaned}.io`, `${cleaned}.co`];
-  for (const domain of candidates) {
-    try {
-      await dns.resolveMx(domain);
-      return domain;
-    } catch { continue; }
-  }
-  return cleaned + '.com';
-}
-
-async function verifyEmailDomain(email) {
-  try {
-    const domain = email.split('@')[1];
-    const mx = await dns.resolveMx(domain);
-    return mx && mx.length > 0;
-  } catch { return false; }
-}
 
 module.exports = router;
