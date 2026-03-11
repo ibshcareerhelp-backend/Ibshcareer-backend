@@ -5,27 +5,23 @@ const User    = require('../models/User');
 
 const PROSPEO_KEY = process.env.PROSPEO_API_KEY;
 
-// Common email patterns to try
-const EMAIL_PATTERNS = [
-  (f, l, d) => `${f}.${l}@${d}`,
-  (f, l, d) => `${f}${l}@${d}`,
-  (f, l, d) => `${f}@${d}`,
-  (f, l, d) => `${f[0]}${l}@${d}`,
-  (f, l, d) => `${f}.${l[0]}@${d}`,
-];
-
+// Common email patterns fallback
 function guessEmails(fullName, domain) {
   if (!fullName || !domain) return [];
   const parts = fullName.toLowerCase().replace(/[^a-z\s]/g, '').trim().split(/\s+/);
   const first = parts[0] || '';
   const last  = parts[parts.length - 1] || '';
-  if (!first) return [];
-  return EMAIL_PATTERNS.map(fn => ({
-    email: fn(first, last, domain),
-    type: 'work',
-    verified: false,
-    confidence: 40
-  })).filter(e => e.email.includes('@') && e.email.split('@')[0].length > 0);
+  if (!first || !domain) return [];
+  const patterns = [
+    `${first}.${last}@${domain}`,
+    `${first}${last}@${domain}`,
+    `${first}@${domain}`,
+    `${first[0]}${last}@${domain}`,
+    `${first}.${last[0]}@${domain}`,
+  ];
+  return [...new Set(patterns)].map(email => ({
+    email, type: 'work', verified: false, confidence: 40
+  }));
 }
 
 function extractDomain(company) {
@@ -38,15 +34,13 @@ function extractDomain(company) {
     .replace(/\s+/g, '') + '.com';
 }
 
-// Reset daily credits if new day
 async function checkDailyReset(user) {
-  const now = new Date();
+  const now  = new Date();
   const last = user.lastCreditReset ? new Date(user.lastCreditReset) : null;
   const isNewDay = !last ||
     last.getUTCFullYear() !== now.getUTCFullYear() ||
     last.getUTCMonth()    !== now.getUTCMonth()    ||
     last.getUTCDate()     !== now.getUTCDate();
-
   if (isNewDay && user.plan === 'free') {
     user.credits = 200;
     user.lastCreditReset = now;
@@ -61,78 +55,59 @@ router.post('/find-email', auth, async (req, res) => {
     const { linkedinUrl, name, company } = req.body;
     const user = await checkDailyReset(req.user);
 
-    // Check if already seen today (no double count)
-    const profileKey = linkedinUrl || `${name}|${company}`;
-    const today      = new Date().toISOString().slice(0, 10);
-    const cacheKey   = `${profileKey}|${today}`;
+    // Cache key for dedup
+    const profileKey  = linkedinUrl || `${name}|${company}`;
+    const today       = new Date().toISOString().slice(0, 10);
+    const cacheKey    = `${profileKey}|${today}`;
     const alreadySeen = user.viewedProfiles && user.viewedProfiles.includes(cacheKey);
 
-    // Check daily limit (only for unseen profiles)
+    // Daily limit check
     if (!alreadySeen && user.plan === 'free' && user.credits <= 0) {
-      return res.status(402).json({
-        message: 'daily_limit_reached',
-        creditsLeft: 0,
-        plan: user.plan
-      });
+      return res.status(402).json({ message: 'daily_limit_reached', creditsLeft: 0, plan: user.plan });
     }
 
     let emails = [];
 
-    // ── Try Prospeo LinkedIn Email Finder first ──
-    if (linkedinUrl && PROSPEO_KEY) {
+    // ── NEW Prospeo API: enrich-person ──
+    if (name && PROSPEO_KEY) {
       try {
-        const prospeoRes = await fetch('https://api.prospeo.io/linkedin-email-finder', {
+        const domain = company ? extractDomain(company) : null;
+        const body = { only_verified_email: false, data: { full_name: name } };
+        if (linkedinUrl) body.data.linkedin_url = linkedinUrl;
+        if (domain) body.data.company_website = domain;
+
+        const pRes  = await fetch('https://api.prospeo.io/enrich-person', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-KEY': PROSPEO_KEY },
-          body: JSON.stringify({ url: linkedinUrl })
+          body: JSON.stringify(body)
         });
-        const pd = await prospeoRes.json();
-        if (pd?.response?.email) {
+        const pData = await pRes.json();
+        console.log('Prospeo enrich-person:', JSON.stringify(pData));
+
+        if (!pData.error && pData.response?.email) {
           emails.push({
-            email: pd.response.email,
-            type: 'work',
-            verified: pd.response.verification?.status === 'VALID',
-            confidence: pd.response.verification?.rate || 85
+            email:      pData.response.email,
+            type:       'work',
+            verified:   pData.response.email_verification?.status === 'VALID',
+            confidence: 90
           });
         }
-      } catch (e) { console.log('Prospeo LinkedIn error:', e.message); }
+      } catch (e) {
+        console.log('Prospeo error:', e.message);
+      }
     }
 
-    // ── Try Prospeo domain email finder ──
-    if (emails.length === 0 && name && company && PROSPEO_KEY) {
-      try {
-        const domain = extractDomain(company);
-        const domRes = await fetch('https://api.prospeo.io/email-finder', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-KEY': PROSPEO_KEY },
-          body: JSON.stringify({ full_name: name, domain })
-        });
-        const dd = await domRes.json();
-        if (dd?.response?.email) {
-          emails.push({
-            email: dd.response.email,
-            type: 'work',
-            verified: dd.response.verification?.status === 'VALID',
-            confidence: dd.response.verification?.rate || 75
-          });
-        }
-      } catch (e) { console.log('Prospeo domain error:', e.message); }
-    }
-
-    // ── Fallback: generate pattern-based emails ──
+    // ── Fallback: pattern-based emails ──
     if (emails.length === 0 && name && company) {
       const domain = extractDomain(company);
       if (domain) {
-        const guessed = guessEmails(name, domain);
-        emails = guessed.slice(0, 3); // show top 3 guesses
+        emails = guessEmails(name, domain).slice(0, 3);
       }
     }
 
-    // ── Only deduct credit if emails were found ──
+    // ── Only deduct credit if email found ──
     if (!alreadySeen && emails.length > 0) {
-      if (user.plan === 'free') {
-        user.credits = Math.max(0, user.credits - 1);
-      }
+      if (user.plan === 'free') user.credits = Math.max(0, user.credits - 1);
       if (!user.viewedProfiles) user.viewedProfiles = [];
       user.viewedProfiles = [cacheKey, ...user.viewedProfiles].slice(0, 500);
       await user.save();
@@ -140,10 +115,10 @@ router.post('/find-email', auth, async (req, res) => {
 
     return res.json({
       emails,
-      credits: user.credits,
-      plan: user.plan,
+      credits:    user.credits,
+      plan:       user.plan,
       alreadySeen,
-      found: emails.length > 0
+      found:      emails.length > 0
     });
 
   } catch (err) {
