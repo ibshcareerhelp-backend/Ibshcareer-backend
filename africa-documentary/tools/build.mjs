@@ -288,7 +288,7 @@ function indexHtml() {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=${W}, height=${H}" />
     <title>Africa: The Untold Story</title>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <script src="assets/vendor/gsap.min.js"></script>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: ${W}px; height: ${H}px; overflow: hidden; background: #000; }
