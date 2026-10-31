@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" data-composition-variables='[{"id":"filmTitle","type":"string","label":"Film title","default":"Africa: The Untold Story"}]'>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Africa: The Untold Story</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+      #main { position: relative; width: 100%; height: 100%; background: #000; }
+    </style>
+  </head>
+  <body>
+    <div id="main" data-composition-id="main" data-start="0" data-duration="300" data-width="1920" data-height="1080">
+      <div id="ch1" data-composition-id="ch1" data-composition-src="compositions/ch1.html" data-start="0" data-duration="60" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:1"></div>
+      <div id="ch2" data-composition-id="ch2" data-composition-src="compositions/ch2.html" data-start="60" data-duration="60" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:1"></div>
+      <div id="ch3" data-composition-id="ch3" data-composition-src="compositions/ch3.html" data-start="120" data-duration="60" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:1"></div>
+      <div id="ch4" data-composition-id="ch4" data-composition-src="compositions/ch4.html" data-start="180" data-duration="60" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:1"></div>
+      <div id="ch5" data-composition-id="ch5" data-composition-src="compositions/ch5.html" data-start="240" data-duration="60" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:1"></div>
+      <div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="300" data-track-index="3" data-track-kind="captions" data-width="1920" data-height="1080" style="z-index:50"></div>
+      
+      
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

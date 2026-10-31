@@ -1,0 +1,100 @@
+<template>
+  <style>
+  #root { position: absolute; inset: 0; overflow: hidden; background: #000; font-family: "Inter", sans-serif; }
+  .shot, .ground, .card { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+  .kb { position: absolute; inset: 0; will-change: transform, opacity; }
+  .kb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ground-pattern { background: radial-gradient(ellipse at 50% 45%, #2a1a0c 0%, #120b06 60%, #070402 100%); }
+  .ground-pattern .pat { position: absolute; left: -200px; top: -200px; width: 2320px; height: 1480px; opacity: 0.13;
+    background:
+      repeating-linear-gradient(45deg, transparent 0 38px, #d4a24c 38px 40px, transparent 40px 80px),
+      repeating-linear-gradient(-45deg, transparent 0 38px, #d4a24c 38px 40px, transparent 40px 80px); }
+  .ground-pattern .pat-fade { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(18,11,6,0.92) 0%, rgba(18,11,6,0.55) 45%, rgba(7,4,2,0.2) 100%); }
+  .ground-black { background: #050302; }
+  .gold { background: linear-gradient(180deg, #fbe7a6 0%, #e2b453 42%, #b07a22 70%, #f0cd78 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .scrim { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0) 80%); }
+  .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .ch-num { font: 700 30px "Inter"; letter-spacing: 0.42em; text-transform: uppercase; color: #e2b453; margin-left: 0.42em; }
+  .ch-rule { width: 220px; height: 2px; background: #c8322a; margin: 26px 0 30px; transform-origin: 50% 50%; }
+  .ch-title { font: 700 92px "Playfair Display", serif; color: #f6ecd9; letter-spacing: 0.04em; text-transform: uppercase; text-shadow: 0 4px 30px rgba(0,0,0,0.6); }
+  .ch-title span, .k-name span, .f-title span { display: inline-block; white-space: pre; }
+  .bigword { font: 900 260px "Playfair Display", serif; letter-spacing: 0.08em; margin-left: 0.08em; filter: drop-shadow(0 8px 40px rgba(0,0,0,0.55)); }
+  .bigword span { display: inline-block; }
+  .lower { position: absolute; left: 150px; bottom: 210px; padding: 26px 44px 28px 34px; max-width: 1200px;
+    background: linear-gradient(90deg, rgba(8,5,2,0.78) 0%, rgba(8,5,2,0.55) 70%, rgba(8,5,2,0) 100%); }
+  .lower .bar { position: absolute; left: 0; top: 18px; bottom: 18px; width: 5px; background: #d4a24c; transform-origin: 50% 0%; }
+  .lower .l-name { font: 700 50px "Playfair Display", serif; color: #f6ecd9; letter-spacing: 0.02em; }
+  .lower .l-sub { font: 400 28px "Inter"; color: #e9d6ae; letter-spacing: 0.04em; margin-top: 8px; }
+  .k-dates { font: 700 28px "Inter"; letter-spacing: 0.36em; color: #e2b453; text-transform: uppercase; margin-left: 0.36em; }
+  .k-name { font: 700 128px "Playfair Display", serif; color: #f6ecd9; text-transform: uppercase; letter-spacing: 0.03em; margin: 22px 0 18px; }
+  .k-note { font: 400 36px "Inter"; color: #e9d6ae; }
+  .words { position: absolute; left: 150px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
+  .words.stack { left: 0; right: 0; align-items: center; }
+  .words .w { font: 700 96px "Playfair Display", serif; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.12; }
+  .words:not(.stack) .w { font-size: 84px; filter: drop-shadow(0 4px 24px rgba(0,0,0,0.8)); }
+  .s-big { font: 900 230px "Playfair Display", serif; line-height: 1; }
+  .s-line { font: 700 64px "Playfair Display", serif; color: #f6ecd9; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 18px; }
+  .s-note { font: 400 34px "Inter"; color: #e9d6ae; margin-top: 18px; }
+  .f-title { font: 700 104px "Playfair Display", serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .f-sub { font: 700 34px "Inter"; color: #f6ecd9; letter-spacing: 0.3em; text-transform: uppercase; margin: 22px 0 0 0.3em; }
+  .f-rule { width: 260px; height: 2px; background: #c8322a; margin: 46px 0; }
+  .f-quote { font: 400 40px "Playfair Display", serif; color: #e9d6ae; letter-spacing: 0.08em; line-height: 1.5; text-transform: uppercase; }
+
+  </style>
+  <div id="root" data-composition-id="ch4" data-width="1920" data-height="1080">
+    <div id="ch4-identity" class="clip shot" data-start="0" data-duration="11.13" data-track-index="1" style="z-index:1"><div id="ch4-identity-kb" class="kb" style="opacity:0"><img id="ch4-identity-img" src="assets/img/elder-cap.jpg" alt="" style="object-position:50% 30%" /></div></div>
+    <div id="ch4-identity-c0" class="clip card" data-start="0.8" data-duration="3.6" data-track-index="2" style="z-index:102" data-layout-allow-overlap><div id="ch4-identity-c0-scrim" class="scrim" style="opacity:0"></div><div class="center"><div id="ch4-identity-c0-num" class="ch-num">Chapter IV</div><div id="ch4-identity-c0-rule" class="ch-rule"></div><div class="ch-title"><span id="ch4-identity-c0-t0">Culture </span><span id="ch4-identity-c0-t1">&amp; </span><span id="ch4-identity-c0-t2">Transformation</span></div></div></div>
+    <div id="ch4-culture" class="clip ground" data-start="11.13" data-duration="8.39" data-track-index="1" style="z-index:3"><div id="ch4-culture-kb" class="kb ground-pattern"><div id="ch4-culture-pat" class="pat"></div><div class="pat-fade"></div></div></div>
+    <div id="ch4-culture-c0" class="clip card" data-start="11.53" data-duration="7.99" data-track-index="2" style="z-index:104"><div class="words stack"><div id="ch4-culture-c0-w0" class="w gold">Music</div><div id="ch4-culture-c0-w1" class="w gold">Languages</div><div id="ch4-culture-c0-w2" class="w gold">Traditions</div><div id="ch4-culture-c0-w3" class="w gold">Creativity</div><div id="ch4-culture-c0-w4" class="w gold">Enterprise</div></div></div>
+    <div id="ch4-host4" class="clip shot" data-start="19.52" data-duration="7" data-track-index="1" style="z-index:5"><div id="ch4-host4-kb" class="kb"><img id="ch4-host4-img" src="assets/img/presenter-crop.jpg" alt="" style="object-position:50% 30%" /></div></div>
+    <div id="ch4-dakar" class="clip shot" data-start="25.72" data-duration="10.8" data-track-index="1" style="z-index:6"><div id="ch4-dakar-kb" class="kb" style="opacity:0"><img id="ch4-dakar-img" src="assets/img/senegal-city.jpg" alt="" style="object-position:50% 50%" /></div></div>
+    <div id="ch4-generation" class="clip shot" data-start="35.72" data-duration="7.8" data-track-index="1" style="z-index:7"><div id="ch4-generation-kb" class="kb" style="opacity:0"><img id="ch4-generation-img" src="assets/img/baobab-city.jpg" alt="" style="object-position:50% 50%" /></div></div>
+    <div id="ch4-generation-c0" class="clip card" data-start="37.72" data-duration="5.8" data-track-index="2" style="z-index:108"><div id="ch4-generation-c0-scrim" class="scrim" style="opacity:0"></div><div class="center"><div class="bigword"><span id="ch4-generation-c0-l0" class="gold">R</span><span id="ch4-generation-c0-l1" class="gold">I</span><span id="ch4-generation-c0-l2" class="gold">S</span><span id="ch4-generation-c0-l3" class="gold">I</span><span id="ch4-generation-c0-l4" class="gold">N</span><span id="ch4-generation-c0-l5" class="gold">G</span></div></div></div>
+    <div id="ch4-youth" class="clip ground" data-start="43.52" data-duration="16.48" data-track-index="1" style="z-index:9"><div id="ch4-youth-kb" class="kb ground-pattern"><div id="ch4-youth-pat" class="pat"></div><div class="pat-fade"></div></div></div>
+    <div id="ch4-youth-c0" class="clip card" data-start="43.92" data-duration="6.2" data-track-index="2" style="z-index:110" data-hold><div class="center"><div id="ch4-youth-c0-big" class="s-big gold">60%</div><div id="ch4-youth-c0-line" class="s-line">Under the age of 25</div><div id="ch4-youth-c0-note" class="s-note">Africa is the world's youngest continent</div></div></div>
+    <div id="ch4-youth-c1" class="clip card" data-start="50.52" data-duration="9.43" data-track-index="2" style="z-index:111" data-hold><div class="center"><div id="ch4-youth-c1-big" class="s-big gold">2,000+</div><div id="ch4-youth-c1-line" class="s-line">Languages</div><div id="ch4-youth-c1-note" class="s-note">Spoken across fifty-four countries</div></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ch4-identity-kb", { scale: 1.15, xPercent: 6, yPercent: 0 }, { scale: 1.02, xPercent: 0, yPercent: 0, duration: 11.13, ease: "sine.inOut" }, 0);
+    tl.fromTo("#ch4-identity-kb", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.out" }, 0);
+    tl.fromTo("#ch4-identity-c0-scrim", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0.8);
+    tl.fromTo("#ch4-identity-c0-num", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 0.95);
+    tl.fromTo("#ch4-identity-c0-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "expo.out" }, 1.15);
+    tl.fromTo("#ch4-identity-c0-t0", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 1.3);
+    tl.fromTo("#ch4-identity-c0-t1", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 1.42);
+    tl.fromTo("#ch4-identity-c0-t2", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 1.54);
+    tl.to("#ch4-identity-c0 .center, #ch4-identity-c0-scrim", { opacity: 0, filter: "blur(6px)", duration: 0.4, ease: "power2.in" }, 3.98);
+    tl.fromTo("#ch4-culture-pat", { x: 0, y: 0 }, { x: -260, y: -130, duration: 8.39, ease: "none" }, 11.13);
+    tl.fromTo("#ch4-culture-c0-w0", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 11.82);
+    tl.fromTo("#ch4-culture-c0-w1", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 12.33);
+    tl.fromTo("#ch4-culture-c0-w2", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 12.99);
+    tl.fromTo("#ch4-culture-c0-w3", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 13.64);
+    tl.fromTo("#ch4-culture-c0-w4", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 14.51);
+    tl.to("#ch4-culture-c0 .words", { opacity: 0, filter: "blur(6px)", duration: 0.35, ease: "power2.in" }, 19.14);
+    tl.fromTo("#ch4-host4-kb", { scale: 1.05, xPercent: 0, yPercent: 1 }, { scale: 1, xPercent: 0, yPercent: 0, duration: 7, ease: "sine.inOut" }, 19.52);
+    tl.fromTo("#ch4-dakar-kb", { scale: 1, xPercent: 0, yPercent: 0 }, { scale: 1.12, xPercent: 2, yPercent: -2, duration: 10.8, ease: "sine.inOut" }, 25.72);
+    tl.fromTo("#ch4-dakar-kb", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "sine.inOut" }, 25.72);
+    tl.fromTo("#ch4-generation-kb", { scale: 1.3, xPercent: -10, yPercent: 4 }, { scale: 1.22, xPercent: -6, yPercent: 2, duration: 7.8, ease: "sine.inOut" }, 35.72);
+    tl.fromTo("#ch4-generation-kb", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "sine.inOut" }, 35.72);
+    tl.fromTo("#ch4-generation-c0-scrim", { opacity: 0 }, { opacity: 0.8, duration: 0.8, ease: "power2.out" }, 37.72);
+    tl.fromTo("#ch4-generation-c0-l0", { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 37.72);
+    tl.fromTo("#ch4-generation-c0-l1", { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 37.82);
+    tl.fromTo("#ch4-generation-c0-l2", { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 37.92);
+    tl.fromTo("#ch4-generation-c0-l3", { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 38.02);
+    tl.fromTo("#ch4-generation-c0-l4", { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 38.12);
+    tl.fromTo("#ch4-generation-c0-l5", { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 38.22);
+    tl.to("#ch4-generation-c0 .center, #ch4-generation-c0-scrim", { opacity: 0, duration: 0.5, ease: "power2.in" }, 42.97);
+    tl.fromTo("#ch4-youth-pat", { x: 0, y: 0 }, { x: -260, y: -130, duration: 16.48, ease: "none" }, 43.52);
+    tl.to("#ch4-youth-kb", { opacity: 0, duration: 0.6, ease: "power2.in" }, 59.36);
+    tl.fromTo("#ch4-youth-c0-big", { opacity: 0, scale: 1.08, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.9, ease: "expo.out" }, 43.92);
+    tl.fromTo("#ch4-youth-c0-line", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 44.37);
+    tl.fromTo("#ch4-youth-c0-note", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 44.72);
+    tl.to("#ch4-youth-c0 .center", { opacity: 0, filter: "blur(8px)", duration: 0.32, ease: "power2.in" }, 49.77);
+    tl.fromTo("#ch4-youth-c1-big", { opacity: 0, scale: 1.08, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.9, ease: "expo.out" }, 50.52);
+    tl.fromTo("#ch4-youth-c1-line", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 50.97);
+    tl.fromTo("#ch4-youth-c1-note", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 51.32);
+    tl.to("#ch4-youth-c1 .center", { opacity: 0, filter: "blur(8px)", duration: 0.32, ease: "power2.in" }, 59.6);
+    window.__timelines["ch4"] = tl;
+  </script>
+</template>
