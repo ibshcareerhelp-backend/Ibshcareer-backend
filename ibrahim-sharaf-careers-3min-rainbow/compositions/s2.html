@@ -1,0 +1,46 @@
+<template>
+  <style>
+  #root { position: absolute; inset: 0; overflow: hidden; background: #1b1464; font-family: "Inter", sans-serif; color: #ffffff; }
+  #wrap { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; background: linear-gradient(115deg, #e0245e 0%, #f2701d 17%, #efb10a 33%, #1fb26b 50%, #12a3d9 67%, #3a5bd9 84%, #9a35c9 100%); background-size: 220% 100%; }
+  #bgpan { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+  .glow { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; background: radial-gradient(ellipse at 78% 30%, rgba(201,162,75,0.20) 0%, rgba(201,162,75,0) 55%); }
+  .vig { display: none; }
+  .brand { position: absolute; left: 90px; top: 62px; display: flex; align-items: center; gap: 18px; }
+  .brand span { font: 700 22px "Inter"; letter-spacing: 0.32em; color: #ffffff; }
+  .abs { position: absolute; }
+  .gold { text-shadow: none !important; }
+  .serif, .eyebrow, .brand span { text-shadow: 0 2px 14px rgba(0,0,0,0.42), 0 1px 3px rgba(0,0,0,0.3); }
+  .gold { filter: drop-shadow(0 3px 12px rgba(0,0,0,0.38)); background: linear-gradient(180deg, #fffbe6 0%, #ffe9a6 55%, #ffd36b 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .serif { font-family: "Playfair Display", serif; }
+  .eyebrow { font: 700 26px "Inter"; letter-spacing: 0.4em; text-transform: uppercase; color: #fff3c4; }
+  .rule { height: 3px; background: rgba(255,255,255,0.9); transform-origin: 0% 50%; }
+  .w { display: inline-block; white-space: pre; }
+
+  </style>
+  <div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+    <div id="wrap">
+      <div id="bgpan"><div style="position:absolute;left:0;top:0;width:1920px;height:1080px;background:linear-gradient(180deg,rgba(8,20,48,0.14) 0%,rgba(8,20,48,0.30) 100%)"></div><div style="position:absolute;left:90px;right:90px;top:128px;height:2px;background:linear-gradient(90deg,rgba(255,255,255,0.8),rgba(255,255,255,0))"></div><div style="position:absolute;left:90px;right:90px;bottom:34px;height:2px;background:linear-gradient(270deg,rgba(255,255,255,0.8),rgba(255,255,255,0))"></div></div>
+      <div class="vig"></div>
+      <div class="brand"><div><img src="assets/img/logo-mark.png" alt="" style="height:54px;width:auto;display:block" /></div><span>IBRAHIM SHARAF CAREERS</span></div>
+      <div id="s2c1" class="abs" style="left:1000px;top:250px;width:780px;height:439px;border-radius:20px;overflow:hidden;border:3px solid #c9a24b;box-shadow:0 24px 56px rgba(0,0,0,0.38);opacity:0"><video id="s2c1-v" class="clip" src="assets/video/him.mp4" muted playsinline data-start="0.4" data-duration="8.9" data-media-start="0" data-playback-rate="1" data-track-index="2" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover"></video></div><div id="s2c2" class="abs" style="left:1000px;top:250px;width:780px;height:439px;border-radius:20px;overflow:hidden;border:3px solid #c9a24b;box-shadow:0 24px 56px rgba(0,0,0,0.38);opacity:0"><video id="s2c2-v" class="clip" src="assets/video/hands.mp4" muted playsinline data-start="9.3" data-duration="9.77" data-media-start="0" data-playback-rate="0.94" data-track-index="2" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover"></video></div><div id="s2c3" class="abs" style="left:1000px;top:250px;width:780px;height:439px;border-radius:20px;overflow:hidden;border:3px solid #c9a24b;box-shadow:0 24px 56px rgba(0,0,0,0.38);opacity:0"><video id="s2c3-v" class="clip" src="assets/video/laptop.mp4" muted playsinline data-start="19.13" data-duration="3.91" data-media-start="0" data-playback-rate="1" data-track-index="2" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover"></video></div>
+      <div id="s2-p0" class="abs" style="left:150px;top:330px;width:780px;opacity:0"><div class="eyebrow" style="margin-bottom:26px">The challenge</div><div class="serif" style="font-size:78px;font-weight:700;line-height:1.14">A fast-moving job market.</div></div><div id="s2-p1" class="abs" style="left:150px;top:330px;width:780px;opacity:0"><div class="eyebrow" style="margin-bottom:26px">The challenge</div><div class="serif" style="font-size:78px;font-weight:700;line-height:1.14">Skills that deserve to be seen.</div></div><div id="s2-p2" class="abs" style="left:150px;top:330px;width:780px;opacity:0"><div class="eyebrow" style="margin-bottom:26px">The answer</div><div class="serif" style="font-size:78px;font-weight:700;line-height:1.14">The right guidance makes the difference.</div></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#bgpan", { scale: 1, transformOrigin: "50% 100%" }, { scale: 1.05, duration: 23.639999999999997, ease: "none" }, 0);
+    tl.fromTo("#wrap", { backgroundPosition: "0% 50%" }, { backgroundPosition: "100% 50%", duration: 23.639999999999997, ease: "none" }, 0);
+    tl.fromTo("#wrap", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "sine.inOut" }, 0);
+    tl.fromTo("#s2c1", { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" }, 0.4);
+    tl.to("#s2c1", { opacity: 0, duration: 0.4, ease: "power2.in" }, 8.85);
+    tl.fromTo("#s2c2", { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" }, 9.3);
+    tl.to("#s2c2", { opacity: 0, duration: 0.4, ease: "power2.in" }, 18.68);
+    tl.fromTo("#s2c3", { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" }, 19.13);
+    tl.fromTo("#s2-p0", { opacity: 0, y: 40, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "expo.out" }, 0.5);
+    tl.to("#s2-p0", { opacity: 0, duration: 0.4, ease: "power2.in" }, 8.7);
+    tl.fromTo("#s2-p1", { opacity: 0, y: 40, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "expo.out" }, 9.5);
+    tl.to("#s2-p1", { opacity: 0, duration: 0.4, ease: "power2.in" }, 18.53);
+    tl.fromTo("#s2-p2", { opacity: 0, y: 40, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "expo.out" }, 19.33);
+    window.__timelines["s2"] = tl;
+  </script>
+</template>
