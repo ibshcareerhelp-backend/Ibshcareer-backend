@@ -230,17 +230,20 @@ const icons = {
     ${v.js}`, "", 1.0, 1.05);
 }
 
-// S8 who we support: your team footage cycles on the right
+// S8 who we support: your team footage plays at normal speed on the right, then your portrait
 {
   const s8 = S("s8");
   const rows = [["Leadership positions", cue("l11", 4, 20)], ["New career opportunities", cue("l11", 10, 20)], ["Ambitious professionals", line("l12").start + 0.6], ["Every stage of your career", cue("l12b", 4, 29)]];
-  const clips = ["team1", "team2", "team3", "team4"], t0 = s8.start + 0.3, step = (s8.end - 0.2 - t0) / 4;
-  const vs = clips.map((c, i) => vcard(`s8c${i}`, c, r2(t0 + i * step), r2(t0 + (i + 1) * step), { sid: "s8", keep: i === 3 }));
-  out.s8 = shell("s8", `${vs.map((v) => v.html).join("")}${chip("s8-eyebrow", "Who we support", 270)}
-      ${rows.map(([t], i) => `<div id="s8-r${i}" class="abs serif" style="left:150px;top:${340 + i * 130}px;width:800px;font-size:60px;font-weight:700;display:flex;align-items:center;gap:24px"><div style="flex:none;width:16px;height:16px;border-radius:50%;background:${GOLD}"></div>${esc(t)}</div>`).join("")}`,
+  const seq = [["team1", 5.4], ["team2", 7.0], ["team3", 3.8], ["team4", 5.9]];
+  let t = s8.start;
+  const vs = seq.map(([c, len], i) => { const v = vcard(`s8c${i}`, c, r2(t), r2(t + len), { sid: "s8" }); t += len; return v; });
+  const hp = hero("s8h", lt("s8", t + 0.2), r2(s8.end - t));
+  out.s8 = shell("s8", `${vs.map((v) => v.html).join("")}${hp.html}${chip("s8-eyebrow", "Who we support", 270)}
+      ${rows.map(([t2], i) => `<div id="s8-r${i}" class="abs serif" style="left:150px;top:${340 + i * 130}px;width:800px;font-size:60px;font-weight:700;display:flex;align-items:center;gap:24px"><div style="flex:none;width:16px;height:16px;border-radius:50%;background:${GOLD}"></div>${esc(t2)}</div>`).join("")}`,
     `${fade("s8-eyebrow", 0.6)}
     ${rows.map(([, g], i) => fade(`s8-r${i}`, lt("s8", g), 40)).join("\n    ")}
-    ${vs.map((v) => v.js).join("\n    ")}`, "", 1.0, 1.05);
+    ${vs.map((v) => v.js).join("\n    ")}
+    ${hp.js}`, "", 1.0, 1.05);
 }
 
 // S9 why it matters, then the four-step approach
