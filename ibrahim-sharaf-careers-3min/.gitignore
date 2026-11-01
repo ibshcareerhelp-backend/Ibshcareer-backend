@@ -3,3 +3,4 @@ renders/
 node_modules/
 assets/music/*.wav
 assets/voice/raw/
+tools/voice-only.wav

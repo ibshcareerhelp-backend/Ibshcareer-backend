@@ -3,6 +3,7 @@
 // If assets/img/presenter.png|jpg exists it is shown as the presenter portrait in scenes 1 and 4.
 import fs from "node:fs";
 import path from "node:path";
+import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -84,12 +85,22 @@ const wordTw = (id, n, at, gap = 0.1, dur = 0.45) => Array.from({ length: n }, (
   `tl.fromTo("#${id}-${i}", { opacity: 0, filter: "blur(12px)" }, { opacity: 1, filter: "blur(0px)", duration: ${dur}, ease: "power3.out" }, ${r2(at + i * gap)});`).join("\n    ");
 
 // presenter portrait card (only when a portrait file exists) or the rising-steps graphic
+// a talking-portrait clip (tools/talk.py) exists for this scene -> use it instead of the still photo
+function talkFor(id) {
+  const m = /^(s\d+)h$/.exec(id);
+  if (!m) return null;
+  const f = `assets/video/talk-${m[1]}.mp4`;
+  if (!fs.existsSync(path.join(ROOT, f))) return null;
+  const len = parseFloat(execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${path.join(ROOT, f)}"`).toString());
+  return { src: f, dur: Math.floor((len - 0.15) * 100) / 100 };
+}
 function hero(id, at) {
+  const talk = talkFor(id);
   if (presenter)
     return {
-      html: `<div id="${id}" class="abs" style="left:1090px;top:190px;width:700px;height:700px;border-radius:26px;overflow:hidden;border:3px solid ${GOLD};box-shadow:0 24px 56px rgba(26,79,214,0.22)"><img id="${id}-img" src="${presenter}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 50%" /></div>`,
-      js: `tl.fromTo("#${id}", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.9, ease: "expo.out" }, ${at});
-    tl.fromTo("#${id}-img", { scale: 1.0 }, { scale: 1.03, duration: 5, ease: "none" }, ${at});`,
+      html: `<div id="${id}" class="abs" style="left:1090px;top:190px;width:700px;height:700px;border-radius:26px;overflow:hidden;border:3px solid ${GOLD};box-shadow:0 24px 56px rgba(26,79,214,0.22)">${talk ? `<video id="${id}-v" class="clip" src="${talk.src}" muted playsinline data-start="0" data-duration="${talk.dur}" data-media-start="0" data-playback-rate="1" data-track-index="2" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover"></video>` : `<img id="${id}-img" src="${presenter}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 50%" />`}</div>`,
+      js: `tl.fromTo("#${id}", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.9, ease: "expo.out" }, ${at});${talk ? "" : `
+    tl.fromTo("#${id}-img", { scale: 1.0 }, { scale: 1.03, duration: ${dur}, ease: "none" }, ${at});`}`,
     };
   const bars = [0, 1, 2, 3, 4].map((i) => `<div id="${id}-b${i}" class="abs" style="left:${1130 + i * 130}px;bottom:${150}px;width:96px;height:${150 + i * 130}px;border-radius:10px 10px 0 0;background:linear-gradient(180deg,${GOLD_L},${GOLD} 60%,#c2500a);transform-origin:50% 100%"></div>`).join("");
   return {
@@ -109,7 +120,7 @@ const out = {};
   out.s1 = shell("s1", `
       ${h.html}
       <div id="s1-eyebrow" class="abs eyebrow" style="left:150px;top:300px">Welcome</div>
-      <div class="abs serif" style="left:150px;top:350px;width:880px;font-size:104px;font-weight:700;line-height:1.08;color:#fff">${words("s1-t", "Your Next Career Move Starts Here.")}</div>
+      <div class="abs serif" style="left:150px;top:350px;width:880px;font-size:104px;font-weight:700;line-height:1.08;color:${NAVY}">${words("s1-t", "Your Next Career Move Starts Here.")}</div>
       <div id="s1-rule" class="abs rule" style="left:154px;top:800px;width:420px"></div>`,
     `tl.fromTo("#s1-eyebrow", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0.3);
     ${wordTw("s1-t", 6, 0.5, 0.14, 0.5)}
@@ -142,7 +153,7 @@ const out = {};
   out.s2 = shell("s2", `
       ${office}${cv}
       <div id="s2-eyebrow" class="abs eyebrow" style="left:150px;top:300px">Strategic career support</div>
-      <div class="abs serif" style="left:150px;top:350px;width:760px;font-size:82px;font-weight:700;line-height:1.12;color:#fff">${words("s2-t", "Professional ambition meets strategy.")}</div>
+      <div class="abs serif" style="left:150px;top:350px;width:760px;font-size:82px;font-weight:700;line-height:1.12;color:${NAVY}">${words("s2-t", "Professional ambition meets strategy.")}</div>
       <div id="s2-rule" class="abs rule" style="left:154px;top:700px;width:300px"></div>`,
     `tl.fromTo("#s2-eyebrow", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0.4);
     ${wordTw("s2-t", 4, 0.6, 0.16, 0.5)}
@@ -181,7 +192,7 @@ const out = {};
       ${h.html}
       <div id="s4-eyebrow" class="abs eyebrow" style="left:150px;top:340px">Ibrahim Sharaf</div>
       <div id="s4-sub" class="abs" style="left:150px;top:392px;font:400 30px Inter;color:#4b5a7a;letter-spacing:0.04em">Ibrahim Sharaf Careers</div>
-      <div class="abs serif" style="left:150px;top:470px;width:880px;font-size:96px;font-weight:700;line-height:1.1;color:#fff">${words("s4-t", "Let's move your career forward.")}</div>
+      <div class="abs serif" style="left:150px;top:470px;width:880px;font-size:96px;font-weight:700;line-height:1.1;color:${NAVY}">${words("s4-t", "Let's move your career forward.")}</div>
       <div id="s4-rule" class="abs rule" style="left:154px;top:810px;width:420px"></div>`,
     `tl.fromTo("#s4-eyebrow", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 0.9);
     tl.fromTo("#s4-sub", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 1.2);

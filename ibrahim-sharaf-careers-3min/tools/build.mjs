@@ -3,6 +3,7 @@
 // If assets/img/presenter.png|jpg exists it is shown as the presenter portrait in scenes 1 and 4.
 import fs from "node:fs";
 import path from "node:path";
+import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -87,10 +88,20 @@ const wordTw = (id, n, at, gap = 0.1, dur = 0.45) => Array.from({ length: n }, (
   `tl.fromTo("#${id}-${i}", { opacity: 0, filter: "blur(12px)" }, { opacity: 1, filter: "blur(0px)", duration: ${dur}, ease: "power3.out" }, ${r2(at + i * gap)});`).join("\n    ");
 
 // presenter portrait card (only when a portrait file exists) or the rising-steps graphic
+// a talking-portrait clip (tools/talk.py) exists for this scene -> use it instead of the still photo
+function talkFor(id) {
+  const m = /^(s\d+)h$/.exec(id);
+  if (!m) return null;
+  const f = `assets/video/talk-${m[1]}.mp4`;
+  if (!fs.existsSync(path.join(ROOT, f))) return null;
+  const len = parseFloat(execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${path.join(ROOT, f)}"`).toString());
+  return { src: f, dur: Math.floor((len - 0.15) * 100) / 100 };
+}
 function hero(id, at, dur = 5) {
+  const talk = talkFor(id);
   if (presenter)
     return {
-      html: `<div id="${id}" class="abs" style="left:1090px;top:190px;width:700px;height:700px;border-radius:26px;overflow:hidden;border:3px solid ${GOLD};box-shadow:0 24px 56px rgba(26,79,214,0.22)"><img id="${id}-img" src="${presenter}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 50%" /></div>`,
+      html: `<div id="${id}" class="abs" style="left:1090px;top:190px;width:700px;height:700px;border-radius:26px;overflow:hidden;border:3px solid ${GOLD};box-shadow:0 24px 56px rgba(26,79,214,0.22)">${talk ? `<video id="${id}-v" class="clip" src="${talk.src}" muted playsinline data-start="0" data-duration="${talk.dur}" data-media-start="0" data-playback-rate="1" data-track-index="2" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover"></video>` : `<img id="${id}-img" src="${presenter}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 50%" />`}</div>`,
       js: `tl.fromTo("#${id}", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.9, ease: "expo.out" }, ${at});
     tl.fromTo("#${id}-img", { scale: 1.0 }, { scale: 1.03, duration: ${dur}, ease: "none" }, ${at});`,
     };
