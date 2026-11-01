@@ -22,6 +22,7 @@ IMG = os.path.join(ROOT, "assets", "img", "presenter.jpg")
 LM_TASK = os.environ.get("LM_TASK", os.path.join(HERE, "face_landmarker.task"))
 SEG_TASK = os.environ.get("SEG_TASK", os.path.join(HERE, "selfie_segmenter.tflite"))
 FPS, OUT = 30, 720
+BODY = float(os.environ.get("BODY", "1"))        # 0 = body completely still (only the mouth moves), 1 = full body motion
 
 # ---------------------------------------------------------------- phonemes -> mouth shapes
 # (jaw opening 0..1, lip width -1 round .. +1 spread, teeth emphasis 0..1, duration weight, kind)
@@ -306,7 +307,8 @@ def body_motion(t, env, act):
 
 def main_render(out, t0, t1):
     img = cv2.imread(IMG)
-    face, body = Face(img), Body(img, person_mask(img))
+    face = Face(img)
+    body = Body(img, person_mask(img)) if BODY > 0 else None
     sched = json.load(open(os.path.join(HERE, "schedule.json")))
     say = {l["id"]: l["say"] for l in json.load(open(os.path.join(HERE, "lines.json")))}
     keys = []
@@ -327,7 +329,10 @@ def main_render(out, t0, t1):
     push = 1 + 0.035 * (t - t0) / max(t1 - t0, 1)
     for i in range(len(t)):
         pe = face.frame(min(1.0, P[i, 0]), P[i, 1], P[i, 2])
-        fr = body.compose(pe, dx[i] * ramp[i], dy[i] * ramp[i], rot[i] * ramp[i], sc[i] * push[i], 1 + 0.4 * (sc[i] * push[i] - 1))
+        if body is None:
+            fr = pe                                                          # still body: only the mouth changes
+        else:
+            fr = body.compose(pe, BODY * dx[i] * ramp[i], BODY * dy[i] * ramp[i], BODY * rot[i] * ramp[i], 1 + BODY * (sc[i] * push[i] - 1), 1 + 0.4 * BODY * (sc[i] * push[i] - 1))
         ff.stdin.write(cv2.resize(fr, (OUT, OUT), interpolation=cv2.INTER_AREA).tobytes())
     ff.stdin.close(); ff.wait()
     print(out, len(t), "frames")
