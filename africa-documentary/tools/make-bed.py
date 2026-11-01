@@ -56,7 +56,7 @@ CH = {
     3: [("Bb1", ["F3", "Bb3", "D4"]), ("C2", ["G3", "C4", "E4"]), ("D2", ["A3", "D4", "F4"]), ("C2", ["G3", "C4", "E4"])],
     4: [("Bb1", ["F3", "Bb3", "D4"]), ("C2", ["G3", "C4", "E4"]), ("D2", ["A3", "D4", "F4"]), ("D2", ["A3", "D4", "A4"])],
 }
-PAD_LEVEL = [0.55, 0.6, 0.5, 0.7, 0.8]
+PAD_LEVEL = [0.35, 0.38, 0.32, 0.42, 0.5]
 
 pad = np.zeros(N, dtype=np.float32)
 drone = np.zeros(N, dtype=np.float32)
@@ -75,7 +75,7 @@ for ch, chords in CH.items():
 
 # ---------- kalimba plucks, D minor pentatonic ----------
 PENTA = ["D4", "F4", "G4", "A4", "C5", "D5", "F5"]
-DENS = [0.22, 0.42, 0.3, 0.6, 0.5]
+DENS = [0.0, 0.06, 0.0, 0.1, 0.08]
 BEAT = 60 / 96
 pluck = np.zeros(N, dtype=np.float32)
 
@@ -102,7 +102,37 @@ while pos < DUR - 3:
     pos += BEAT / 2
     k += 1
 
-# ---------- hand drums: enter in chapter II ----------
+# ---------- a little piano: sparse, soft, on chord tones ----------
+piano = np.zeros(N, dtype=np.float32)
+
+
+def piano_note(f, amp):
+    n = int(3.2 * SR)
+    t = np.arange(n, dtype=np.float32) / SR
+    x = np.zeros(n, dtype=np.float32)
+    for h in range(1, 9):
+        fh = f * h * np.sqrt(1 + 0.0004 * h * h)
+        x += (1.0 / h ** 1.1) * np.sin(2 * np.pi * fh * t) * np.exp(-(1.3 + 0.9 * h) * t)
+    x += 0.05 * rng.standard_normal(n).astype(np.float32) * np.exp(-80 * t)
+    return (x * np.minimum(1, t / 0.003) * np.exp(-0.5 * t) * amp).astype(np.float32)
+
+
+PIANO_P = [0.22, 0.3, 0.2, 0.32, 0.3]
+for ch, chords in CH.items():
+    for i, (low, voices) in enumerate(chords):
+        base = ch * 60 + i * 15
+        tones = [note(v) for v in voices] + [note(v) * 2 for v in voices[:2]]
+        for beat in range(0, 24, 2):
+            tt = base + 1.0 + beat * BEAT
+            if tt > DUR - 6 or (ch == 0 and tt < 4):
+                continue
+            if rng.random() < PIANO_P[ch]:
+                w = piano_note(tones[int(rng.integers(0, len(tones)))], 0.5 * (0.7 + 0.3 * rng.random()))
+                s0 = int(tt * SR)
+                e0 = min(N, s0 + len(w))
+                piano[s0:e0] += w[: e0 - s0]
+
+# ---------- hand drums: present all the way through ----------
 drum = np.zeros(N, dtype=np.float32)
 
 
@@ -116,6 +146,7 @@ def hit(low, amp):
 
 
 PATTERNS = {
+    0: [(0, 1, 0.7), (8, 1, 0.55), (12, 0, 0.35)],
     1: [(0, 1, 0.8), (4, 0, 0.35), (6, 0, 0.35)],
     2: [(0, 1, 0.9), (3, 1, 0.5), (8, 1, 0.8)],
     3: [(0, 1, 0.8), (2, 0, 0.4), (4, 0, 0.5), (6, 0, 0.35), (8, 1, 0.7), (10, 0, 0.4), (12, 0, 0.5), (14, 0, 0.35)],
@@ -126,7 +157,7 @@ n_bars = int(DUR // bar)
 for b in range(n_bars):
     t0 = b * bar
     ch = int(t0 // 60)
-    if ch not in PATTERNS or t0 < 62 or t0 > 281:
+    if ch not in PATTERNS or t0 < 6 or t0 > 281:
         continue
     for step, low, a in PATTERNS[ch]:
         s = int((t0 + step * BEAT / 4) * SR)
@@ -136,7 +167,7 @@ for b in range(n_bars):
             drum[s:e] += w[: e - s]
 
 # ---------- mix, sweep slow movement into stereo ----------
-mono = pad * 0.75 + drone * 0.5 + pluck + drum * 0.9
+mono = pad * 0.6 + drone * 0.35 + pluck * 0.6 + piano * 1.1 + drum * 1.7
 pan = 0.5 + 0.18 * np.sin(2 * np.pi * t_all / 23.0)
 left = mono * np.sqrt(1 - pan) + np.roll(pad, 900) * 0.2
 right = mono * np.sqrt(pan) + np.roll(pad, -900) * 0.2
