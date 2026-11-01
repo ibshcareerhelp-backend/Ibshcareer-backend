@@ -38,7 +38,7 @@ function skyline() {
   }
   return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="position:absolute;left:0;top:0">${out}</svg>`;
 }
-const LOGO = (size) => `<svg width="${size}" height="${size}" viewBox="0 0 100 100"><polygon points="50,4 91,27 91,73 50,96 9,73 9,27" fill="none" stroke="${GOLD}" stroke-width="3.5"/><polygon points="50,14 82,32 82,68 50,86 18,68 18,32" fill="${NAVY}" stroke="${GOLD}" stroke-width="1.2"/><text data-layout-ignore x="50" y="60" text-anchor="middle" font-family="Playfair Display" font-weight="700" font-size="34" fill="${GOLD_L}">IS</text></svg>`;
+const LOGO = (size) => `<img src="assets/img/logo-mark.png" alt="" style="height:${size}px;width:auto;display:block" />`;
 
 const css = `
   #root { position: absolute; inset: 0; overflow: hidden; background: #071a33; font-family: "Inter", sans-serif; color: #fff; }
@@ -87,9 +87,9 @@ const wordTw = (id, n, at, gap = 0.1, dur = 0.45) => Array.from({ length: n }, (
 function hero(id, at) {
   if (presenter)
     return {
-      html: `<div id="${id}" class="abs" style="left:1060px;top:150px;width:690px;height:820px;border-radius:26px;overflow:hidden;border:3px solid ${GOLD};box-shadow:0 30px 80px rgba(0,0,0,0.55)"><img id="${id}-img" src="${presenter}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 20%" /></div>`,
+      html: `<div id="${id}" class="abs" style="left:1090px;top:190px;width:700px;height:700px;border-radius:26px;overflow:hidden;border:3px solid ${GOLD};box-shadow:0 30px 80px rgba(0,0,0,0.55)"><img id="${id}-img" src="${presenter}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 50%" /></div>`,
       js: `tl.fromTo("#${id}", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.9, ease: "expo.out" }, ${at});
-    tl.fromTo("#${id}-img", { scale: 1.0 }, { scale: 1.08, duration: 5, ease: "none" }, ${at});`,
+    tl.fromTo("#${id}-img", { scale: 1.0 }, { scale: 1.03, duration: 5, ease: "none" }, ${at});`,
     };
   const bars = [0, 1, 2, 3, 4].map((i) => `<div id="${id}-b${i}" class="abs" style="left:${1130 + i * 130}px;bottom:${150}px;width:96px;height:${150 + i * 130}px;border-radius:10px 10px 0 0;background:linear-gradient(180deg,${GOLD_L},${GOLD} 60%,#8a6a22);transform-origin:50% 100%"></div>`).join("");
   return {
@@ -109,7 +109,7 @@ const out = {};
   out.s1 = shell("s1", `
       ${h.html}
       <div id="s1-eyebrow" class="abs eyebrow" style="left:150px;top:300px">Welcome</div>
-      <div class="abs serif" style="left:150px;top:350px;width:960px;font-size:118px;font-weight:700;line-height:1.08;color:#fff">${words("s1-t", "Your Next Career Move Starts Here.")}</div>
+      <div class="abs serif" style="left:150px;top:350px;width:880px;font-size:104px;font-weight:700;line-height:1.08;color:#fff">${words("s1-t", "Your Next Career Move Starts Here.")}</div>
       <div id="s1-rule" class="abs rule" style="left:154px;top:800px;width:420px"></div>`,
     `tl.fromTo("#s1-eyebrow", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0.3);
     ${wordTw("s1-t", 6, 0.5, 0.14, 0.5)}
@@ -181,7 +181,7 @@ const out = {};
       ${h.html}
       <div id="s4-eyebrow" class="abs eyebrow" style="left:150px;top:340px">Ibrahim Sharaf</div>
       <div id="s4-sub" class="abs" style="left:150px;top:392px;font:400 30px Inter;color:#d8e0ee;letter-spacing:0.04em">Ibrahim Sharaf Careers</div>
-      <div class="abs serif" style="left:150px;top:470px;width:960px;font-size:104px;font-weight:700;line-height:1.1;color:#fff">${words("s4-t", "Let's move your career forward.")}</div>
+      <div class="abs serif" style="left:150px;top:470px;width:880px;font-size:96px;font-weight:700;line-height:1.1;color:#fff">${words("s4-t", "Let's move your career forward.")}</div>
       <div id="s4-rule" class="abs rule" style="left:154px;top:810px;width:420px"></div>`,
     `tl.fromTo("#s4-eyebrow", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 0.9);
     tl.fromTo("#s4-sub", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 1.2);
