@@ -23,7 +23,7 @@ const SCENES = [
 ];
 
 // ---------- shared look ----------
-const NAVY = "#0b2545", GOLD = "#c9a24b", GOLD_L = "#f0d58a";
+const NAVY = "#1a4fd6", GOLD = "#f26b0f", GOLD_L = "#ff9d4d";
 function skyline() {
   let seed = 7;
   const rnd = () => ((seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296);
@@ -41,17 +41,17 @@ function skyline() {
 const LOGO = (size) => `<img src="assets/img/logo-mark.png" alt="" style="height:${size}px;width:auto;display:block" />`;
 
 const css = `
-  #root { position: absolute; inset: 0; overflow: hidden; background: #ffffff; font-family: "Inter", sans-serif; color: #0b2545; }
+  #root { position: absolute; inset: 0; overflow: hidden; background: #ffffff; font-family: "Inter", sans-serif; color: #1a4fd6; }
   #wrap { position: absolute; left: 0; top: 0; width: ${W}px; height: ${H}px; background: linear-gradient(160deg, #ffffff 0%, #f6f9fd 60%, #eaf0f8 100%); }
   #bgpan { position: absolute; left: 0; top: 0; width: ${W}px; height: ${H}px; }
-  .glow { position: absolute; left: 0; top: 0; width: ${W}px; height: ${H}px; background: radial-gradient(ellipse at 78% 30%, rgba(201,162,75,0.20) 0%, rgba(201,162,75,0) 55%); }
+  .glow { position: absolute; left: 0; top: 0; width: ${W}px; height: ${H}px; background: radial-gradient(ellipse at 78% 30%, rgba(242,107,15,0.20) 0%, rgba(242,107,15,0) 55%); }
   .vig { display: none; }
   .brand { position: absolute; left: 90px; top: 62px; display: flex; align-items: center; gap: 18px; }
   .brand span { font: 700 22px "Inter"; letter-spacing: 0.32em; color: ${NAVY}; }
   .abs { position: absolute; }
-  .gold { background: linear-gradient(180deg, #d1a748 0%, #b8892a 55%, #8a6212 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .gold { background: linear-gradient(180deg, #2f6bf5 0%, #1a4fd6 55%, #0f3399 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .serif { font-family: "Playfair Display", serif; }
-  .eyebrow { font: 700 26px "Inter"; letter-spacing: 0.4em; text-transform: uppercase; color: #9a7418; }
+  .eyebrow { font: 700 26px "Inter"; letter-spacing: 0.4em; text-transform: uppercase; color: #e0560a; }
   .rule { height: 3px; background: ${GOLD}; transform-origin: 0% 50%; }
   .w { display: inline-block; white-space: pre; }
 `;
@@ -62,7 +62,7 @@ function shell(sid, body, script, extraCss = "", panFrom = 1.0, panTo = 1.07) {
   </style>
   <div id="root" data-composition-id="${sid}" data-width="${W}" data-height="${H}">
     <div id="wrap">
-      <div id="bgpan"><div style="position:absolute;left:90px;right:90px;top:128px;height:2px;background:linear-gradient(90deg,#c9a24b,rgba(201,162,75,0))"></div><div style="position:absolute;left:90px;right:90px;bottom:34px;height:2px;background:linear-gradient(270deg,#c9a24b,rgba(201,162,75,0))"></div></div>
+      <div id="bgpan"><div style="position:absolute;left:90px;right:90px;top:128px;height:2px;background:linear-gradient(90deg,#f26b0f,rgba(242,107,15,0))"></div><div style="position:absolute;left:90px;right:90px;bottom:34px;height:2px;background:linear-gradient(270deg,#f26b0f,rgba(242,107,15,0))"></div></div>
       <div class="vig"></div>
       <div class="brand"><div>${LOGO(54)}</div><span>IBRAHIM SHARAF CAREERS</span></div>
       ${body}
@@ -87,11 +87,11 @@ const wordTw = (id, n, at, gap = 0.1, dur = 0.45) => Array.from({ length: n }, (
 function hero(id, at) {
   if (presenter)
     return {
-      html: `<div id="${id}" class="abs" style="left:1090px;top:190px;width:700px;height:700px;border-radius:26px;overflow:hidden;border:3px solid ${GOLD};box-shadow:0 24px 56px rgba(11,37,69,0.22)"><img id="${id}-img" src="${presenter}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 50%" /></div>`,
+      html: `<div id="${id}" class="abs" style="left:1090px;top:190px;width:700px;height:700px;border-radius:26px;overflow:hidden;border:3px solid ${GOLD};box-shadow:0 24px 56px rgba(26,79,214,0.22)"><img id="${id}-img" src="${presenter}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 50%" /></div>`,
       js: `tl.fromTo("#${id}", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.9, ease: "expo.out" }, ${at});
     tl.fromTo("#${id}-img", { scale: 1.0 }, { scale: 1.03, duration: 5, ease: "none" }, ${at});`,
     };
-  const bars = [0, 1, 2, 3, 4].map((i) => `<div id="${id}-b${i}" class="abs" style="left:${1130 + i * 130}px;bottom:${150}px;width:96px;height:${150 + i * 130}px;border-radius:10px 10px 0 0;background:linear-gradient(180deg,${GOLD_L},${GOLD} 60%,#8a6a22);transform-origin:50% 100%"></div>`).join("");
+  const bars = [0, 1, 2, 3, 4].map((i) => `<div id="${id}-b${i}" class="abs" style="left:${1130 + i * 130}px;bottom:${150}px;width:96px;height:${150 + i * 130}px;border-radius:10px 10px 0 0;background:linear-gradient(180deg,${GOLD_L},${GOLD} 60%,#c2500a);transform-origin:50% 100%"></div>`).join("");
   return {
     html: `${bars}<svg id="${id}-arrow" class="abs" style="left:1090px;top:230px" width="720" height="560" viewBox="0 0 720 560"><path id="${id}-p" d="M20 520 C 200 470, 360 330, 640 70" fill="none" stroke="${NAVY}" stroke-width="9" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110"/><path id="${id}-h" d="M575 62 L650 52 L630 128" fill="none" stroke="${NAVY}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="0"/></svg>`,
     js: `${[0, 1, 2, 3, 4].map((i) => `tl.fromTo("#${id}-b${i}", { scaleY: 0 }, { scaleY: 1, duration: 0.8, ease: "expo.out" }, ${r2(at + 0.15 * i)});`).join("\n    ")}
@@ -132,7 +132,7 @@ const out = {};
       <rect x="560" y="420" width="10" height="50" fill="${GOLD}"/><path d="M520 420 L610 420 L580 392 L550 392 Z" fill="${GOLD_L}" opacity="0.9"/>
       <circle cx="90" cy="440" r="0" fill="none"/>
     </svg>`;
-  const cv = `<div id="s2-cv" class="abs" style="left:780px;top:430px;width:330px;height:420px;border-radius:14px;background:#f7f4ec;box-shadow:0 24px 56px rgba(11,37,69,0.22);padding:34px 30px">
+  const cv = `<div id="s2-cv" class="abs" style="left:780px;top:430px;width:330px;height:420px;border-radius:14px;background:#f7f4ec;box-shadow:0 24px 56px rgba(26,79,214,0.22);padding:34px 30px">
       <div style="width:60px;height:60px;border-radius:50%;background:${NAVY}"></div>
       <div id="s2-cvn" style="height:16px;width:170px;margin:-44px 0 0 80px;background:${NAVY};border-radius:4px"></div>
       <div style="height:10px;width:110px;margin:12px 0 0 80px;background:${GOLD};border-radius:4px"></div>
@@ -162,11 +162,11 @@ const out = {};
     goal: `<circle cx="34" cy="38" r="26" fill="none" stroke="${GOLD}" stroke-width="3.5"/><circle cx="34" cy="38" r="14" fill="none" stroke="${GOLD}" stroke-width="3.5"/><path d="M34 38 L62 8 M50 8 H62 V20" fill="none" stroke="${GOLD_L}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`,
   };
   const tiles = [["cv", "CV Development"], ["brief", "Executive Recruitment"], ["talk", "Interview Preparation"], ["goal", "Career Opportunities"]];
-  const tileHtml = tiles.map(([k, label], i) => `<div id="s3-c${i}" class="abs" style="left:${150 + i * 420}px;top:290px;width:380px;height:380px;border-radius:22px;background:#ffffff;border:2px solid rgba(201,162,75,0.7);box-shadow:0 18px 44px rgba(11,37,69,0.14)"><svg style="position:absolute;left:150px;top:80px" width="80" height="80" viewBox="0 0 72 72">${icons[k]}</svg><div class="serif" style="position:absolute;left:0;right:0;top:215px;text-align:center;font-size:40px;font-weight:700;line-height:1.2;padding:0 30px">${esc(label)}</div></div>`).join("");
+  const tileHtml = tiles.map(([k, label], i) => `<div id="s3-c${i}" class="abs" style="left:${150 + i * 420}px;top:290px;width:380px;height:380px;border-radius:22px;background:#ffffff;border:2px solid rgba(242,107,15,0.7);box-shadow:0 18px 44px rgba(26,79,214,0.14)"><svg style="position:absolute;left:150px;top:80px" width="80" height="80" viewBox="0 0 72 72">${icons[k]}</svg><div class="serif" style="position:absolute;left:0;right:0;top:215px;text-align:center;font-size:40px;font-weight:700;line-height:1.2;padding:0 30px">${esc(label)}</div></div>`).join("");
   out.s3 = shell("s3", `
       <div id="s3-eyebrow" class="abs eyebrow" style="left:150px;top:196px">What we do</div>
       ${tileHtml}
-      <div id="s3-bar" class="abs" style="left:150px;top:760px;width:1620px;height:92px;border-radius:46px;background:linear-gradient(90deg,${GOLD},${GOLD_L});display:flex;align-items:center;justify-content:center;font:700 38px Inter;color:${NAVY};letter-spacing:0.04em;white-space:nowrap">Career Strategy &nbsp;|&nbsp; CV Positioning &nbsp;|&nbsp; Opportunity Support</div>`,
+      <div id="s3-bar" class="abs" style="left:150px;top:760px;width:1620px;height:92px;border-radius:46px;background:linear-gradient(90deg,${GOLD},${GOLD_L});display:flex;align-items:center;justify-content:center;font:700 38px Inter;color:#ffffff;letter-spacing:0.04em;white-space:nowrap">Career Strategy &nbsp;|&nbsp; CV Positioning &nbsp;|&nbsp; Opportunity Support</div>`,
     `tl.fromTo("#s3-eyebrow", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0.4);
     ${tiles.map((_, i) => `tl.fromTo("#s3-c${i}", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.8, ease: "expo.out" }, ${r2(0.6 + i * 1.0)});`).join("\n    ")}
     tl.fromTo("#s3-bar", { opacity: 0, y: 30, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "expo.out" }, 5.0);`,
@@ -180,7 +180,7 @@ const out = {};
   out.s4 = shell("s4", `
       ${h.html}
       <div id="s4-eyebrow" class="abs eyebrow" style="left:150px;top:340px">Ibrahim Sharaf</div>
-      <div id="s4-sub" class="abs" style="left:150px;top:392px;font:400 30px Inter;color:#4a5b75;letter-spacing:0.04em">Ibrahim Sharaf Careers</div>
+      <div id="s4-sub" class="abs" style="left:150px;top:392px;font:400 30px Inter;color:#4b5a7a;letter-spacing:0.04em">Ibrahim Sharaf Careers</div>
       <div class="abs serif" style="left:150px;top:470px;width:880px;font-size:96px;font-weight:700;line-height:1.1;color:#fff">${words("s4-t", "Let's move your career forward.")}</div>
       <div id="s4-rule" class="abs rule" style="left:154px;top:810px;width:420px"></div>`,
     `tl.fromTo("#s4-eyebrow", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 0.9);
@@ -198,8 +198,8 @@ const out = {};
         <div id="s5-name" class="serif gold" style="font-size:104px;font-weight:700;letter-spacing:0.05em;margin-top:22px">IBRAHIM SHARAF CAREERS</div>
         <div id="s5-tag" style="font:700 34px Inter;color:${NAVY};letter-spacing:0.42em;text-transform:uppercase;margin:18px 0 0 0.42em">Achieve. Advance. Succeed.</div>
         <div id="s5-rule" class="rule" style="width:300px;margin:38px 0 36px;transform-origin:50% 50%"></div>
-        <div id="s5-web" style="display:flex;align-items:center;gap:20px;font:700 56px Inter;color:#8a6212;letter-spacing:0.02em"><svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="23" fill="none" stroke="${GOLD}" stroke-width="3"/><ellipse cx="28" cy="28" rx="10" ry="23" fill="none" stroke="${GOLD}" stroke-width="3"/><path d="M5 28 H51 M9 15 H47 M9 41 H47" stroke="${GOLD}" stroke-width="3" fill="none"/></svg>ibrahimsharafcareers.site</div>
-        <div id="s5-cta" style="font:400 34px Inter;color:#4a5b75;margin-top:30px;letter-spacing:0.03em">Take the next step in your career.</div>
+        <div id="s5-web" style="display:flex;align-items:center;gap:20px;font:700 56px Inter;color:#e0560a;letter-spacing:0.02em"><svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="23" fill="none" stroke="${GOLD}" stroke-width="3"/><ellipse cx="28" cy="28" rx="10" ry="23" fill="none" stroke="${GOLD}" stroke-width="3"/><path d="M5 28 H51 M9 15 H47 M9 41 H47" stroke="${GOLD}" stroke-width="3" fill="none"/></svg>ibrahimsharafcareers.site</div>
+        <div id="s5-cta" style="font:400 34px Inter;color:#4b5a7a;margin-top:30px;letter-spacing:0.03em">Take the next step in your career.</div>
       </div>`,
     `tl.fromTo("#s5-logo", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.9, ease: "expo.out" }, 0.3);
     tl.fromTo("#s5-name", { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.8, ease: "power3.out" }, 0.55);

@@ -26,7 +26,7 @@ const cue = (lineId, word, of) => { const l = line(lineId); return l.start + (l.
 
 
 // ---------- shared look ----------
-const NAVY = "#0b2545", GOLD = "#c9a24b", GOLD_L = "#f0d58a";
+const NAVY = "#1a4fd6", GOLD = "#f26b0f", GOLD_L = "#ff9d4d";
 function skyline() {
   let seed = 7;
   const rnd = () => ((seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296);
@@ -44,17 +44,17 @@ function skyline() {
 const LOGO = (size) => `<img src="assets/img/logo-mark.png" alt="" style="height:${size}px;width:auto;display:block" />`;
 
 const css = `
-  #root { position: absolute; inset: 0; overflow: hidden; background: #ffffff; font-family: "Inter", sans-serif; color: #0b2545; }
+  #root { position: absolute; inset: 0; overflow: hidden; background: #ffffff; font-family: "Inter", sans-serif; color: #1a4fd6; }
   #wrap { position: absolute; left: 0; top: 0; width: ${W}px; height: ${H}px; background: linear-gradient(160deg, #ffffff 0%, #f6f9fd 60%, #eaf0f8 100%); }
   #bgpan { position: absolute; left: 0; top: 0; width: ${W}px; height: ${H}px; }
-  .glow { position: absolute; left: 0; top: 0; width: ${W}px; height: ${H}px; background: radial-gradient(ellipse at 78% 30%, rgba(201,162,75,0.20) 0%, rgba(201,162,75,0) 55%); }
+  .glow { position: absolute; left: 0; top: 0; width: ${W}px; height: ${H}px; background: radial-gradient(ellipse at 78% 30%, rgba(242,107,15,0.20) 0%, rgba(242,107,15,0) 55%); }
   .vig { display: none; }
   .brand { position: absolute; left: 90px; top: 62px; display: flex; align-items: center; gap: 18px; }
   .brand span { font: 700 22px "Inter"; letter-spacing: 0.32em; color: ${NAVY}; }
   .abs { position: absolute; }
-  .gold { background: linear-gradient(180deg, #d1a748 0%, #b8892a 55%, #8a6212 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .gold { background: linear-gradient(180deg, #2f6bf5 0%, #1a4fd6 55%, #0f3399 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .serif { font-family: "Playfair Display", serif; }
-  .eyebrow { font: 700 26px "Inter"; letter-spacing: 0.4em; text-transform: uppercase; color: #9a7418; }
+  .eyebrow { font: 700 26px "Inter"; letter-spacing: 0.4em; text-transform: uppercase; color: #e0560a; }
   .rule { height: 3px; background: ${GOLD}; transform-origin: 0% 50%; }
   .w { display: inline-block; white-space: pre; }
 `;
@@ -65,7 +65,7 @@ function shell(sid, body, script, extraCss = "", panFrom = 1.0, panTo = 1.07) {
   </style>
   <div id="root" data-composition-id="${sid}" data-width="${W}" data-height="${H}">
     <div id="wrap">
-      <div id="bgpan"><div style="position:absolute;left:90px;right:90px;top:128px;height:2px;background:linear-gradient(90deg,#c9a24b,rgba(201,162,75,0))"></div><div style="position:absolute;left:90px;right:90px;bottom:34px;height:2px;background:linear-gradient(270deg,#c9a24b,rgba(201,162,75,0))"></div></div>
+      <div id="bgpan"><div style="position:absolute;left:90px;right:90px;top:128px;height:2px;background:linear-gradient(90deg,#f26b0f,rgba(242,107,15,0))"></div><div style="position:absolute;left:90px;right:90px;bottom:34px;height:2px;background:linear-gradient(270deg,#f26b0f,rgba(242,107,15,0))"></div></div>
       <div class="vig"></div>
       <div class="brand"><div>${LOGO(54)}</div><span>IBRAHIM SHARAF CAREERS</span></div>
       ${body}
@@ -90,11 +90,11 @@ const wordTw = (id, n, at, gap = 0.1, dur = 0.45) => Array.from({ length: n }, (
 function hero(id, at, dur = 5) {
   if (presenter)
     return {
-      html: `<div id="${id}" class="abs" style="left:1090px;top:190px;width:700px;height:700px;border-radius:26px;overflow:hidden;border:3px solid ${GOLD};box-shadow:0 24px 56px rgba(11,37,69,0.22)"><img id="${id}-img" src="${presenter}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 50%" /></div>`,
+      html: `<div id="${id}" class="abs" style="left:1090px;top:190px;width:700px;height:700px;border-radius:26px;overflow:hidden;border:3px solid ${GOLD};box-shadow:0 24px 56px rgba(26,79,214,0.22)"><img id="${id}-img" src="${presenter}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 50%" /></div>`,
       js: `tl.fromTo("#${id}", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.9, ease: "expo.out" }, ${at});
     tl.fromTo("#${id}-img", { scale: 1.0 }, { scale: 1.03, duration: ${dur}, ease: "none" }, ${at});`,
     };
-  const bars = [0, 1, 2, 3, 4].map((i) => `<div id="${id}-b${i}" class="abs" style="left:${1130 + i * 130}px;bottom:${150}px;width:96px;height:${150 + i * 130}px;border-radius:10px 10px 0 0;background:linear-gradient(180deg,${GOLD_L},${GOLD} 60%,#8a6a22);transform-origin:50% 100%"></div>`).join("");
+  const bars = [0, 1, 2, 3, 4].map((i) => `<div id="${id}-b${i}" class="abs" style="left:${1130 + i * 130}px;bottom:${150}px;width:96px;height:${150 + i * 130}px;border-radius:10px 10px 0 0;background:linear-gradient(180deg,${GOLD_L},${GOLD} 60%,#c2500a);transform-origin:50% 100%"></div>`).join("");
   return {
     html: `${bars}<svg id="${id}-arrow" class="abs" style="left:1090px;top:230px" width="720" height="560" viewBox="0 0 720 560"><path id="${id}-p" d="M20 520 C 200 470, 360 330, 640 70" fill="none" stroke="${NAVY}" stroke-width="9" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110"/><path id="${id}-h" d="M575 62 L650 52 L630 128" fill="none" stroke="${NAVY}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="0"/></svg>`,
     js: `${[0, 1, 2, 3, 4].map((i) => `tl.fromTo("#${id}-b${i}", { scaleY: 0 }, { scaleY: 1, duration: 0.8, ease: "expo.out" }, ${r2(at + 0.15 * i)});`).join("\n    ")}
@@ -105,7 +105,7 @@ function hero(id, at, dur = 5) {
 
 // ---------- scenes ----------
 const out = {};
-const CLIPLEN = { him: 9.33, hands: 9.33, laptop: 11.2, laptop2: 7.2, docs: 7.43 };
+const CLIPLEN = { him: 9.33, hands: 9.33, laptop: 11.2, laptop2: 7.2, docs: 7.43, team1: 5.5, team2: 8.0, team3: 3.9, team4: 6.0 };
 
 const chip = (id, text, top = 196) => `<div id="${id}" class="abs eyebrow" style="left:150px;top:${top}px">${esc(text)}</div>`;
 const fade = (id, at, y = 0) => `tl.fromTo("#${id}", { opacity: 0${y ? `, y: ${y}` : ""} }, { opacity: 1${y ? ", y: 0" : ""}, duration: 0.7, ease: "expo.out" }, ${at});`;
@@ -121,13 +121,13 @@ function vcard(id, clip, g0, g1, o = {}) {
   const vdur = Math.floor(Math.min(len, avail / rate - 0.15) * 100) / 100; // stays inside the source file
   const at = lt(sid, g0);
   return {
-    html: `<div id="${id}" class="abs" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px;border-radius:20px;overflow:hidden;border:3px solid ${GOLD};box-shadow:0 24px 56px rgba(11,37,69,0.22);opacity:0"><video id="${id}-v" class="clip" src="assets/video/${clip}.mp4" muted playsinline data-start="${at}" data-duration="${vdur}" data-media-start="${media}" data-playback-rate="${r2(rate)}" data-track-index="2" style="position:absolute;left:0;top:0;width:${crop * 100}%;height:${crop * 100}%;object-fit:cover"></video></div>`,
+    html: `<div id="${id}" class="abs" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px;border-radius:20px;overflow:hidden;border:3px solid ${GOLD};box-shadow:0 24px 56px rgba(26,79,214,0.22);opacity:0"><video id="${id}-v" class="clip" src="assets/video/${clip}.mp4" muted playsinline data-start="${at}" data-duration="${vdur}" data-media-start="${media}" data-playback-rate="${r2(rate)}" data-track-index="2" style="position:absolute;left:0;top:0;width:${crop * 100}%;height:${crop * 100}%;object-fit:cover"></video></div>`,
     js: `tl.fromTo("#${id}", { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" }, ${at});`
       + (o.keep ? "" : `\n    tl.to("#${id}", { opacity: 0, duration: 0.4, ease: "power2.in" }, ${r2(at + len - 0.45)});`),
   };
 }
 function steps(id, at) {
-  const bars = [0, 1, 2, 3, 4].map((i) => `<div id="${id}-b${i}" class="abs" style="left:${1130 + i * 120}px;top:${760 - (150 + i * 105)}px;width:88px;height:${150 + i * 105}px;border-radius:10px 10px 0 0;background:linear-gradient(180deg,${GOLD_L},${GOLD} 60%,#8a6a22);transform-origin:50% 100%"></div>`).join("");
+  const bars = [0, 1, 2, 3, 4].map((i) => `<div id="${id}-b${i}" class="abs" style="left:${1130 + i * 120}px;top:${760 - (150 + i * 105)}px;width:88px;height:${150 + i * 105}px;border-radius:10px 10px 0 0;background:linear-gradient(180deg,${GOLD_L},${GOLD} 60%,#c2500a);transform-origin:50% 100%"></div>`).join("");
   return { html: bars, js: [0, 1, 2, 3, 4].map((i) => `tl.fromTo("#${id}-b${i}", { scaleY: 0 }, { scaleY: 1, duration: 0.8, ease: "expo.out" }, ${r2(at + 0.18 * i)});`).join("\n    ") };
 }
 const icons = {
@@ -168,8 +168,8 @@ const icons = {
 {
   const tiles = [["cv", "CV Development", 7], ["goal", "Opportunity Support", 10], ["bars", "Career Positioning", 13], ["brief", "Recruitment Support", 18]];
   out.s3 = shell("s3", `${chip("s3-eyebrow", "What we do")}
-      ${tiles.map(([k, label], i) => `<div id="s3-c${i}" class="abs" style="left:${150 + i * 420}px;top:290px;width:380px;height:380px;border-radius:22px;background:#ffffff;border:2px solid rgba(201,162,75,0.7);box-shadow:0 18px 44px rgba(11,37,69,0.14)"><svg style="position:absolute;left:150px;top:80px" width="80" height="80" viewBox="0 0 72 72">${icons[k]}</svg><div class="serif" style="position:absolute;left:0;right:0;top:215px;text-align:center;font-size:40px;font-weight:700;line-height:1.2;padding:0 30px">${esc(label)}</div></div>`).join("")}
-      <div id="s3-bar" class="abs" style="left:150px;top:760px;width:1620px;height:92px;border-radius:46px;background:linear-gradient(90deg,${GOLD},${GOLD_L});display:flex;align-items:center;justify-content:center;font:700 38px Inter;color:${NAVY};letter-spacing:0.04em;white-space:nowrap">Career Strategy &nbsp;|&nbsp; CV Positioning &nbsp;|&nbsp; Opportunity Support</div>`,
+      ${tiles.map(([k, label], i) => `<div id="s3-c${i}" class="abs" style="left:${150 + i * 420}px;top:290px;width:380px;height:380px;border-radius:22px;background:#ffffff;border:2px solid rgba(242,107,15,0.7);box-shadow:0 18px 44px rgba(26,79,214,0.14)"><svg style="position:absolute;left:150px;top:80px" width="80" height="80" viewBox="0 0 72 72">${icons[k]}</svg><div class="serif" style="position:absolute;left:0;right:0;top:215px;text-align:center;font-size:40px;font-weight:700;line-height:1.2;padding:0 30px">${esc(label)}</div></div>`).join("")}
+      <div id="s3-bar" class="abs" style="left:150px;top:760px;width:1620px;height:92px;border-radius:46px;background:linear-gradient(90deg,${GOLD},${GOLD_L});display:flex;align-items:center;justify-content:center;font:700 38px Inter;color:#ffffff;letter-spacing:0.04em;white-space:nowrap">Career Strategy &nbsp;|&nbsp; CV Positioning &nbsp;|&nbsp; Opportunity Support</div>`,
     `${fade("s3-eyebrow", 0.4)}
     ${tiles.map(([, , w], i) => fade(`s3-c${i}`, lt("s3", cue("l6", w, 24)), 60)).join("\n    ")}
     tl.fromTo("#s3-bar", { opacity: 0, y: 30, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "expo.out" }, ${lt("s3", cue("l6", 20, 24))});`, "", 1.0, 1.05);
@@ -178,7 +178,7 @@ const icons = {
 // S4 CV development: an animated CV + three phrases
 {
   const b = bullets("s4", [["Clear presentation of your experience", cue("l7", 20, 34)], ["The right focus for the role", cue("l7", 23, 34)], ["Impact that gets you noticed", cue("l7", 27, 34)]], 520);
-  const cv = `<div id="s4-cv" class="abs" style="left:1130px;top:200px;width:480px;height:620px;border-radius:16px;background:#f7f4ec;box-shadow:0 24px 56px rgba(11,37,69,0.22);padding:50px 44px"><div style="width:84px;height:84px;border-radius:50%;background:${NAVY}"></div><div style="height:20px;width:240px;margin:-62px 0 0 112px;background:${NAVY};border-radius:4px"></div><div style="height:12px;width:160px;margin:16px 0 0 112px;background:${GOLD};border-radius:4px"></div>${[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => `<div id="s4-l${i}" style="height:12px;width:${i % 3 === 2 ? 250 : 390}px;margin-top:${i === 0 ? 60 : 26}px;background:#c9ced8;border-radius:4px;transform-origin:0% 50%"></div>`).join("")}<div id="s4-chk" style="position:absolute;right:-30px;top:-30px;width:84px;height:84px;border-radius:50%;background:${GOLD};display:flex;align-items:center;justify-content:center"><svg width="42" height="42" viewBox="0 0 34 34"><path d="M6 18 L14 26 L29 8" fill="none" stroke="${NAVY}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>`;
+  const cv = `<div id="s4-cv" class="abs" style="left:1130px;top:200px;width:480px;height:620px;border-radius:16px;background:#f7f4ec;box-shadow:0 24px 56px rgba(26,79,214,0.22);padding:50px 44px"><div style="width:84px;height:84px;border-radius:50%;background:${NAVY}"></div><div style="height:20px;width:240px;margin:-62px 0 0 112px;background:${NAVY};border-radius:4px"></div><div style="height:12px;width:160px;margin:16px 0 0 112px;background:${GOLD};border-radius:4px"></div>${[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => `<div id="s4-l${i}" style="height:12px;width:${i % 3 === 2 ? 250 : 390}px;margin-top:${i === 0 ? 60 : 26}px;background:#c9ced8;border-radius:4px;transform-origin:0% 50%"></div>`).join("")}<div id="s4-chk" style="position:absolute;right:-30px;top:-30px;width:84px;height:84px;border-radius:50%;background:${GOLD};display:flex;align-items:center;justify-content:center"><svg width="42" height="42" viewBox="0 0 34 34"><path d="M6 18 L14 26 L29 8" fill="none" stroke="${NAVY}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>`;
   out.s4 = shell("s4", `${chip("s4-eyebrow", "01 · CV Development", 270)}
       <div id="s4-h" class="abs serif" style="left:150px;top:310px;width:900px;font-size:66px;font-weight:700;line-height:1.1">Your first impression.</div>${b.html}${cv}`,
     `${fade("s4-eyebrow", lt("s4", cue("l7", 1, 34)))}
@@ -230,15 +230,17 @@ const icons = {
     ${v.js}`, "", 1.0, 1.05);
 }
 
-// S8 who we support
+// S8 who we support: your team footage cycles on the right
 {
+  const s8 = S("s8");
   const rows = [["Leadership positions", cue("l11", 4, 20)], ["New career opportunities", cue("l11", 10, 20)], ["Ambitious professionals", line("l12").start + 0.6], ["Every stage of your career", cue("l12b", 4, 29)]];
-  const h = hero("s8h", 0.4, S("s8").end - S("s8").start);
-  out.s8 = shell("s8", `${h.html}${chip("s8-eyebrow", "Who we support", 270)}
-      ${rows.map(([t], i) => `<div id="s8-r${i}" class="abs serif" style="left:150px;top:${340 + i * 130}px;width:900px;font-size:64px;font-weight:700;display:flex;align-items:center;gap:24px"><div style="flex:none;width:16px;height:16px;border-radius:50%;background:${GOLD}"></div>${esc(t)}</div>`).join("")}`,
+  const clips = ["team1", "team2", "team3", "team4"], t0 = s8.start + 0.3, step = (s8.end - 0.2 - t0) / 4;
+  const vs = clips.map((c, i) => vcard(`s8c${i}`, c, r2(t0 + i * step), r2(t0 + (i + 1) * step), { sid: "s8", keep: i === 3 }));
+  out.s8 = shell("s8", `${vs.map((v) => v.html).join("")}${chip("s8-eyebrow", "Who we support", 270)}
+      ${rows.map(([t], i) => `<div id="s8-r${i}" class="abs serif" style="left:150px;top:${340 + i * 130}px;width:800px;font-size:60px;font-weight:700;display:flex;align-items:center;gap:24px"><div style="flex:none;width:16px;height:16px;border-radius:50%;background:${GOLD}"></div>${esc(t)}</div>`).join("")}`,
     `${fade("s8-eyebrow", 0.6)}
     ${rows.map(([, g], i) => fade(`s8-r${i}`, lt("s8", g), 40)).join("\n    ")}
-    ${h.js}`, "", 1.0, 1.05);
+    ${vs.map((v) => v.js).join("\n    ")}`, "", 1.0, 1.05);
 }
 
 // S9 why it matters, then the four-step approach
@@ -247,7 +249,7 @@ const icons = {
   const t13 = line("l13").start;
   out.s9 = shell("s9", `${chip("s9-eyebrow", "Our approach", 230)}
       <div id="s9-q" class="abs serif" style="left:150px;top:330px;width:1500px;font-size:92px;font-weight:700;line-height:1.14">A strong career is not built by chance.</div>
-      ${st.map(([n, t], i) => `<div id="s9-s${i}" class="abs" style="left:${150 + i * 420}px;top:340px;width:380px;height:420px;border-radius:22px;background:#ffffff;border:2px solid rgba(201,162,75,0.7);box-shadow:0 18px 44px rgba(11,37,69,0.14);padding:40px 34px;opacity:0"><div class="serif gold" style="font-size:80px;font-weight:700">${n}</div><div class="serif" style="font-size:42px;font-weight:700;line-height:1.2;margin-top:24px">${esc(t)}</div></div>`).join("")}`,
+      ${st.map(([n, t], i) => `<div id="s9-s${i}" class="abs" style="left:${150 + i * 420}px;top:340px;width:380px;height:420px;border-radius:22px;background:#ffffff;border:2px solid rgba(242,107,15,0.7);box-shadow:0 18px 44px rgba(26,79,214,0.14);padding:40px 34px;opacity:0"><div class="serif gold" style="font-size:80px;font-weight:700">${n}</div><div class="serif" style="font-size:42px;font-weight:700;line-height:1.2;margin-top:24px">${esc(t)}</div></div>`).join("")}`,
     `${fade("s9-eyebrow", 0.5)}
     tl.fromTo("#s9-q", { opacity: 0, y: 40, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, ease: "expo.out" }, ${lt("s9", line("l13a").start)});
     tl.to("#s9-q", { opacity: 0, duration: 0.5, ease: "power2.in" }, ${lt("s9", t13 - 0.3)});
@@ -259,7 +261,7 @@ const icons = {
   const h = hero("s10h", 0.4, S("s10").end - S("s10").start);
   const ph = [["Every professional has a story worth telling.", line("l13b").start], ["You do not have to move forward alone.", line("l15").start + 0.4], ["Let's move your career forward.", line("l16").start - 0.1]];
   out.s10 = shell("s10", `${h.html}
-      <div id="s10-name" class="abs" style="left:150px;top:250px;opacity:0"><div class="eyebrow">Ibrahim Sharaf</div><div style="font:400 30px Inter;color:#4a5b75;letter-spacing:0.04em;margin-top:10px">Ibrahim Sharaf Careers</div></div>
+      <div id="s10-name" class="abs" style="left:150px;top:250px;opacity:0"><div class="eyebrow">Ibrahim Sharaf</div><div style="font:400 30px Inter;color:#4b5a7a;letter-spacing:0.04em;margin-top:10px">Ibrahim Sharaf Careers</div></div>
       ${ph.map(([t], i) => `<div id="s10-p${i}" class="abs serif" style="left:150px;top:420px;width:880px;font-size:${i === 2 ? 100 : 82}px;font-weight:700;line-height:1.12;opacity:0">${esc(t)}</div>`).join("")}`,
     `${fade("s10-name", lt("s10", line("l14").start - 0.2), 20)}
     ${ph.map(([, g], i) => `tl.fromTo("#s10-p${i}", { opacity: 0, y: 40, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "expo.out" }, ${lt("s10", g)});${i < 2 ? `\n    tl.to("#s10-p${i}", { opacity: 0, duration: 0.4, ease: "power2.in" }, ${lt("s10", ph[i + 1][1] - 0.5)});` : ""}`).join("\n    ")}
@@ -274,8 +276,8 @@ const icons = {
         <div id="s11-name" class="serif gold" style="font-size:104px;font-weight:700;letter-spacing:0.05em;margin-top:22px">IBRAHIM SHARAF CAREERS</div>
         <div id="s11-tag" style="font:700 34px Inter;color:${NAVY};letter-spacing:0.42em;text-transform:uppercase;margin:18px 0 0 0.42em">Achieve. Advance. Succeed.</div>
         <div id="s11-rule" class="rule" style="width:300px;margin:38px 0 36px;transform-origin:50% 50%"></div>
-        <div id="s11-web" style="display:flex;align-items:center;gap:20px;font:700 56px Inter;color:#8a6212;letter-spacing:0.02em"><svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="23" fill="none" stroke="${GOLD}" stroke-width="3"/><ellipse cx="28" cy="28" rx="10" ry="23" fill="none" stroke="${GOLD}" stroke-width="3"/><path d="M5 28 H51 M9 15 H47 M9 41 H47" stroke="${GOLD}" stroke-width="3" fill="none"/></svg>ibrahimsharafcareers.site</div>
-        <div id="s11-cta" style="font:400 34px Inter;color:#4a5b75;margin-top:30px;letter-spacing:0.03em">Take the next step in your career.</div>
+        <div id="s11-web" style="display:flex;align-items:center;gap:20px;font:700 56px Inter;color:#e0560a;letter-spacing:0.02em"><svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="23" fill="none" stroke="${GOLD}" stroke-width="3"/><ellipse cx="28" cy="28" rx="10" ry="23" fill="none" stroke="${GOLD}" stroke-width="3"/><path d="M5 28 H51 M9 15 H47 M9 41 H47" stroke="${GOLD}" stroke-width="3" fill="none"/></svg>ibrahimsharafcareers.site</div>
+        <div id="s11-cta" style="font:400 34px Inter;color:#4b5a7a;margin-top:30px;letter-spacing:0.03em">Take the next step in your career.</div>
       </div>`,
     `tl.fromTo("#s11-logo", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.9, ease: "expo.out" }, 0.3);
     tl.fromTo("#s11-name", { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.8, ease: "power3.out" }, 0.55);
