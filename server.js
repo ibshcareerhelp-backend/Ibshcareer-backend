@@ -11,8 +11,10 @@ const outreachRoutes = require('./routes/outreach');
 const app = express();
 
 app.use(cors({ origin: '*' }));
-app.use(express.json());
+// Stripe verifies the webhook signature against the exact raw bytes, so the raw
+// parser must run before express.json() (which then skips the already-read body).
 app.use('/api/billing/webhook', express.raw({ type: 'application/json' }));
+app.use(express.json());
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
