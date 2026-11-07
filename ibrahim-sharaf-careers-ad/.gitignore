@@ -1,0 +1,6 @@
+renders/
+.hyperframes/
+node_modules/
+assets/music/*.wav
+tools/voice-only.wav
+tools/*.tflite

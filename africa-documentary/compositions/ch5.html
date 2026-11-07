@@ -1,0 +1,86 @@
+<template>
+  <style>
+  #root { position: absolute; inset: 0; overflow: hidden; background: #000; font-family: "Inter", sans-serif; }
+  .shot, .ground, .card { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+  .kb { position: absolute; inset: 0; will-change: transform, opacity; }
+  .kb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ground-pattern { background: radial-gradient(ellipse at 50% 45%, #2a1a0c 0%, #120b06 60%, #070402 100%); }
+  .ground-pattern .pat { position: absolute; left: -200px; top: -200px; width: 2320px; height: 1480px; opacity: 0.13;
+    background:
+      repeating-linear-gradient(45deg, transparent 0 38px, #d4a24c 38px 40px, transparent 40px 80px),
+      repeating-linear-gradient(-45deg, transparent 0 38px, #d4a24c 38px 40px, transparent 40px 80px); }
+  .ground-pattern .pat-fade { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(18,11,6,0.92) 0%, rgba(18,11,6,0.55) 45%, rgba(7,4,2,0.2) 100%); }
+  .ground-black { background: #050302; }
+  .gold { background: linear-gradient(180deg, #fbe7a6 0%, #e2b453 42%, #b07a22 70%, #f0cd78 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .scrim { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0) 80%); }
+  .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .ch-num { font: 700 30px "Inter"; letter-spacing: 0.42em; text-transform: uppercase; color: #e2b453; margin-left: 0.42em; }
+  .ch-rule { width: 220px; height: 2px; background: #c8322a; margin: 26px 0 30px; transform-origin: 50% 50%; }
+  .ch-title { font: 700 92px "Playfair Display", serif; color: #f6ecd9; letter-spacing: 0.04em; text-transform: uppercase; text-shadow: 0 4px 30px rgba(0,0,0,0.6); }
+  .ch-title span, .k-name span, .f-title span { display: inline-block; white-space: pre; }
+  .bigword { font: 900 260px "Playfair Display", serif; letter-spacing: 0.08em; margin-left: 0.08em; filter: drop-shadow(0 8px 40px rgba(0,0,0,0.55)); }
+  .bigword span { display: inline-block; }
+  .lower { position: absolute; left: 150px; bottom: 210px; padding: 26px 44px 28px 34px; max-width: 1200px;
+    background: linear-gradient(90deg, rgba(8,5,2,0.78) 0%, rgba(8,5,2,0.55) 70%, rgba(8,5,2,0) 100%); }
+  .lower .bar { position: absolute; left: 0; top: 18px; bottom: 18px; width: 5px; background: #d4a24c; transform-origin: 50% 0%; }
+  .lower .l-name { font: 700 50px "Playfair Display", serif; color: #f6ecd9; letter-spacing: 0.02em; }
+  .lower .l-sub { font: 400 28px "Inter"; color: #e9d6ae; letter-spacing: 0.04em; margin-top: 8px; }
+  .k-dates { font: 700 28px "Inter"; letter-spacing: 0.36em; color: #e2b453; text-transform: uppercase; margin-left: 0.36em; }
+  .k-name { font: 700 128px "Playfair Display", serif; color: #f6ecd9; text-transform: uppercase; letter-spacing: 0.03em; margin: 22px 0 18px; }
+  .k-note { font: 400 36px "Inter"; color: #e9d6ae; }
+  .words { position: absolute; left: 150px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
+  .words.stack { left: 0; right: 0; align-items: center; }
+  .words .w { font: 700 96px "Playfair Display", serif; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.12; }
+  .words:not(.stack) .w { font-size: 84px; filter: drop-shadow(0 4px 24px rgba(0,0,0,0.8)); }
+  .s-big { font: 900 230px "Playfair Display", serif; line-height: 1; }
+  .s-line { font: 700 64px "Playfair Display", serif; color: #f6ecd9; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 18px; }
+  .s-note { font: 400 34px "Inter"; color: #e9d6ae; margin-top: 18px; }
+  .f-title { font: 700 104px "Playfair Display", serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .f-sub { font: 700 34px "Inter"; color: #f6ecd9; letter-spacing: 0.3em; text-transform: uppercase; margin: 22px 0 0 0.3em; }
+  .f-rule { width: 260px; height: 2px; background: #c8322a; margin: 46px 0; }
+  .f-quote { font: 400 40px "Playfair Display", serif; color: #e9d6ae; letter-spacing: 0.08em; line-height: 1.5; text-transform: uppercase; }
+
+  </style>
+  <div id="root" data-composition-id="ch5" data-width="1920" data-height="1080">
+    <div id="ch5-baobab" class="clip shot" data-start="0" data-duration="9.68" data-track-index="1" style="z-index:1"><div id="ch5-baobab-kb" class="kb" style="opacity:0"><img id="ch5-baobab-img" src="assets/img/baobab-city.jpg" alt="" style="object-position:50% 50%" /></div></div>
+    <div id="ch5-baobab-c0" class="clip card" data-start="0.8" data-duration="3.6" data-track-index="2" style="z-index:102" data-layout-allow-overlap><div id="ch5-baobab-c0-scrim" class="scrim" style="opacity:0"></div><div class="center"><div id="ch5-baobab-c0-num" class="ch-num">Chapter V</div><div id="ch5-baobab-c0-rule" class="ch-rule"></div><div class="ch-title"><span id="ch5-baobab-c0-t0">The </span><span id="ch5-baobab-c0-t1">Future </span><span id="ch5-baobab-c0-t2">of </span><span id="ch5-baobab-c0-t3">Africa</span></div></div></div>
+    <div id="ch5-skyline" class="clip shot" data-start="8.88" data-duration="6.8" data-track-index="1" style="z-index:3"><div id="ch5-skyline-kb" class="kb" style="opacity:0"><img id="ch5-skyline-img" src="assets/img/senegal-city.jpg" alt="" style="object-position:50% 30%" /></div></div>
+    <div id="ch5-host5" class="clip shot" data-start="15.68" data-duration="11.21" data-track-index="1" style="z-index:4"><div id="ch5-host5-kb" class="kb"><img id="ch5-host5-img" src="assets/img/presenter-crop.jpg" alt="" style="object-position:50% 30%" /></div></div>
+    <div id="ch5-horizon" class="clip shot" data-start="26.09" data-duration="11.8" data-track-index="1" style="z-index:5"><div id="ch5-horizon-kb" class="kb" style="opacity:0"><img id="ch5-horizon-img" src="assets/img/savannah-sunset.jpg" alt="" style="object-position:50% 50%" /></div></div>
+    <div id="ch5-host6" class="clip shot" data-start="37.09" data-duration="6.25" data-track-index="1" style="z-index:6"><div id="ch5-host6-kb" class="kb" style="opacity:0"><img id="ch5-host6-img" src="assets/img/presenter-crop.jpg" alt="" style="object-position:50% 30%" /></div></div>
+    <div id="ch5-end" class="clip ground" data-start="43.34" data-duration="16.66" data-track-index="1" style="z-index:7"><div id="ch5-end-kb" class="kb ground-black" style="opacity:0"></div></div>
+    <div id="ch5-end-c0" class="clip card" data-start="43.94" data-duration="16.01" data-track-index="2" style="z-index:108" data-hold><div class="center"><div class="f-title"><span id="ch5-end-c0-t0" class="gold">Africa: </span><span id="ch5-end-c0-t1" class="gold">The </span><span id="ch5-end-c0-t2" class="gold">Untold </span><span id="ch5-end-c0-t3" class="gold">Story</span></div><div id="ch5-end-c0-sub" class="f-sub">From Ancient Kingdoms to a New Generation</div><div id="ch5-end-c0-rule" class="f-rule"></div><div id="ch5-end-c0-q" class="f-quote">“Our history is our foundation.<br />Our future is our responsibility.”</div></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ch5-baobab-kb", { scale: 1, xPercent: 0, yPercent: 0 }, { scale: 1.12, xPercent: 0, yPercent: 2, duration: 9.68, ease: "sine.inOut" }, 0);
+    tl.fromTo("#ch5-baobab-kb", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.out" }, 0);
+    tl.fromTo("#ch5-baobab-c0-scrim", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0.8);
+    tl.fromTo("#ch5-baobab-c0-num", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 0.95);
+    tl.fromTo("#ch5-baobab-c0-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "expo.out" }, 1.15);
+    tl.fromTo("#ch5-baobab-c0-t0", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 1.3);
+    tl.fromTo("#ch5-baobab-c0-t1", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 1.42);
+    tl.fromTo("#ch5-baobab-c0-t2", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 1.54);
+    tl.fromTo("#ch5-baobab-c0-t3", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 1.66);
+    tl.to("#ch5-baobab-c0 .center, #ch5-baobab-c0-scrim", { opacity: 0, filter: "blur(6px)", duration: 0.4, ease: "power2.in" }, 3.98);
+    tl.fromTo("#ch5-skyline-kb", { scale: 1.2, xPercent: 0, yPercent: 6 }, { scale: 1.08, xPercent: 0, yPercent: 0, duration: 6.8, ease: "sine.inOut" }, 8.88);
+    tl.fromTo("#ch5-skyline-kb", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "sine.inOut" }, 8.88);
+    tl.fromTo("#ch5-host5-kb", { scale: 1, xPercent: 0, yPercent: 0 }, { scale: 1.06, xPercent: 0, yPercent: 1, duration: 11.21, ease: "sine.inOut" }, 15.68);
+    tl.fromTo("#ch5-horizon-kb", { scale: 1, xPercent: 0, yPercent: 0 }, { scale: 1.12, xPercent: -3, yPercent: 0, duration: 11.8, ease: "sine.inOut" }, 26.09);
+    tl.fromTo("#ch5-horizon-kb", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "sine.inOut" }, 26.09);
+    tl.fromTo("#ch5-host6-kb", { scale: 1.12, xPercent: 0, yPercent: 2 }, { scale: 1, xPercent: 0, yPercent: 0, duration: 6.25, ease: "sine.inOut" }, 37.09);
+    tl.fromTo("#ch5-host6-kb", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "sine.inOut" }, 37.09);
+    tl.to("#ch5-host6-kb", { opacity: 0, duration: 0.45, ease: "power2.in" }, 42.85);
+    tl.fromTo("#ch5-end-kb", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.out" }, 43.34);
+    tl.to("#ch5-end-kb", { opacity: 0, duration: 1.2, ease: "power2.in" }, 58.76);
+    tl.fromTo("#ch5-end-c0-t0", { opacity: 0, filter: "blur(12px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "power3.out" }, 44.24);
+    tl.fromTo("#ch5-end-c0-t1", { opacity: 0, filter: "blur(12px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "power3.out" }, 44.4);
+    tl.fromTo("#ch5-end-c0-t2", { opacity: 0, filter: "blur(12px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "power3.out" }, 44.56);
+    tl.fromTo("#ch5-end-c0-t3", { opacity: 0, filter: "blur(12px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "power3.out" }, 44.72);
+    tl.fromTo("#ch5-end-c0-sub", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 1.0, ease: "expo.out" }, 45.54);
+    tl.fromTo("#ch5-end-c0-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "expo.out" }, 46.94);
+    tl.fromTo("#ch5-end-c0-q", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 1.0, ease: "power2.out" }, 47.54);
+    tl.to("#ch5-end-c0 .center", { opacity: 0, duration: 1.2, ease: "power2.in" }, 58.65);
+    window.__timelines["ch5"] = tl;
+  </script>
+</template>

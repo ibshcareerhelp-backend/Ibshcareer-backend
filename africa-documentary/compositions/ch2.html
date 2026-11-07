@@ -1,0 +1,122 @@
+<template>
+  <style>
+  #root { position: absolute; inset: 0; overflow: hidden; background: #000; font-family: "Inter", sans-serif; }
+  .shot, .ground, .card { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+  .kb { position: absolute; inset: 0; will-change: transform, opacity; }
+  .kb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ground-pattern { background: radial-gradient(ellipse at 50% 45%, #2a1a0c 0%, #120b06 60%, #070402 100%); }
+  .ground-pattern .pat { position: absolute; left: -200px; top: -200px; width: 2320px; height: 1480px; opacity: 0.13;
+    background:
+      repeating-linear-gradient(45deg, transparent 0 38px, #d4a24c 38px 40px, transparent 40px 80px),
+      repeating-linear-gradient(-45deg, transparent 0 38px, #d4a24c 38px 40px, transparent 40px 80px); }
+  .ground-pattern .pat-fade { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(18,11,6,0.92) 0%, rgba(18,11,6,0.55) 45%, rgba(7,4,2,0.2) 100%); }
+  .ground-black { background: #050302; }
+  .gold { background: linear-gradient(180deg, #fbe7a6 0%, #e2b453 42%, #b07a22 70%, #f0cd78 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .scrim { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0) 80%); }
+  .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .ch-num { font: 700 30px "Inter"; letter-spacing: 0.42em; text-transform: uppercase; color: #e2b453; margin-left: 0.42em; }
+  .ch-rule { width: 220px; height: 2px; background: #c8322a; margin: 26px 0 30px; transform-origin: 50% 50%; }
+  .ch-title { font: 700 92px "Playfair Display", serif; color: #f6ecd9; letter-spacing: 0.04em; text-transform: uppercase; text-shadow: 0 4px 30px rgba(0,0,0,0.6); }
+  .ch-title span, .k-name span, .f-title span { display: inline-block; white-space: pre; }
+  .bigword { font: 900 260px "Playfair Display", serif; letter-spacing: 0.08em; margin-left: 0.08em; filter: drop-shadow(0 8px 40px rgba(0,0,0,0.55)); }
+  .bigword span { display: inline-block; }
+  .lower { position: absolute; left: 150px; bottom: 210px; padding: 26px 44px 28px 34px; max-width: 1200px;
+    background: linear-gradient(90deg, rgba(8,5,2,0.78) 0%, rgba(8,5,2,0.55) 70%, rgba(8,5,2,0) 100%); }
+  .lower .bar { position: absolute; left: 0; top: 18px; bottom: 18px; width: 5px; background: #d4a24c; transform-origin: 50% 0%; }
+  .lower .l-name { font: 700 50px "Playfair Display", serif; color: #f6ecd9; letter-spacing: 0.02em; }
+  .lower .l-sub { font: 400 28px "Inter"; color: #e9d6ae; letter-spacing: 0.04em; margin-top: 8px; }
+  .k-dates { font: 700 28px "Inter"; letter-spacing: 0.36em; color: #e2b453; text-transform: uppercase; margin-left: 0.36em; }
+  .k-name { font: 700 128px "Playfair Display", serif; color: #f6ecd9; text-transform: uppercase; letter-spacing: 0.03em; margin: 22px 0 18px; }
+  .k-note { font: 400 36px "Inter"; color: #e9d6ae; }
+  .words { position: absolute; left: 150px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
+  .words.stack { left: 0; right: 0; align-items: center; }
+  .words .w { font: 700 96px "Playfair Display", serif; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.12; }
+  .words:not(.stack) .w { font-size: 84px; filter: drop-shadow(0 4px 24px rgba(0,0,0,0.8)); }
+  .s-big { font: 900 230px "Playfair Display", serif; line-height: 1; }
+  .s-line { font: 700 64px "Playfair Display", serif; color: #f6ecd9; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 18px; }
+  .s-note { font: 400 34px "Inter"; color: #e9d6ae; margin-top: 18px; }
+  .f-title { font: 700 104px "Playfair Display", serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .f-sub { font: 700 34px "Inter"; color: #f6ecd9; letter-spacing: 0.3em; text-transform: uppercase; margin: 22px 0 0 0.3em; }
+  .f-rule { width: 260px; height: 2px; background: #c8322a; margin: 46px 0; }
+  .f-quote { font: 400 40px "Playfair Display", serif; color: #e9d6ae; letter-spacing: 0.08em; line-height: 1.5; text-transform: uppercase; }
+
+  </style>
+  <div id="root" data-composition-id="ch2" data-width="1920" data-height="1080">
+    <div id="ch2-kush" class="clip shot" data-start="0" data-duration="15.29" data-track-index="1" style="z-index:1"><div id="ch2-kush-kb" class="kb" style="opacity:0"><img id="ch2-kush-img" src="assets/img/kush-procession.jpg" alt="" style="object-position:50% 50%" /></div></div>
+    <div id="ch2-kush-c0" class="clip card" data-start="0.8" data-duration="3.6" data-track-index="2" style="z-index:102" data-layout-allow-overlap><div id="ch2-kush-c0-scrim" class="scrim" style="opacity:0"></div><div class="center"><div id="ch2-kush-c0-num" class="ch-num">Chapter II</div><div id="ch2-kush-c0-rule" class="ch-rule"></div><div class="ch-title"><span id="ch2-kush-c0-t0">The </span><span id="ch2-kush-c0-t1">Great </span><span id="ch2-kush-c0-t2">Kingdoms</span></div></div></div>
+    <div id="ch2-kush-c1" class="clip card" data-start="11.89" data-duration="3.2" data-track-index="2" style="z-index:103"><div id="ch2-kush-c1-box" class="lower"><div id="ch2-kush-c1-bar" class="bar"></div><div id="ch2-kush-c1-name" class="l-name">Kingdom of Kush</div><div id="ch2-kush-c1-sub" class="l-sub">Nubia · c. 1070 BC – AD 350</div></div></div>
+    <div id="ch2-mali" class="clip shot" data-start="14.49" data-duration="6.8" data-track-index="1" style="z-index:4"><div id="ch2-mali-kb" class="kb" style="opacity:0"><img id="ch2-mali-img" src="assets/img/timbuktu-market.jpg" alt="" style="object-position:50% 50%" /></div></div>
+    <div id="ch2-mali-c0" class="clip card" data-start="16.29" data-duration="5" data-track-index="2" style="z-index:105"><div id="ch2-mali-c0-box" class="lower"><div id="ch2-mali-c0-bar" class="bar"></div><div id="ch2-mali-c0-name" class="l-name">Mali Empire</div><div id="ch2-mali-c0-sub" class="l-sub">Mansa Musa · reigned c. 1312 – 1337</div></div></div>
+    <div id="ch2-benin" class="clip ground" data-start="21.29" data-duration="5" data-track-index="1" style="z-index:6"><div id="ch2-benin-kb" class="kb ground-pattern"><div id="ch2-benin-pat" class="pat"></div><div class="pat-fade"></div></div></div>
+    <div id="ch2-benin-c0" class="clip card" data-start="22.49" data-duration="3.8" data-track-index="2" style="z-index:107"><div class="center"><div id="ch2-benin-c0-dates" class="k-dates">c. 1180 – 1897</div><div class="k-name"><span id="ch2-benin-c0-n0">Kingdom </span><span id="ch2-benin-c0-n1">of </span><span id="ch2-benin-c0-n2">Benin</span></div><div id="ch2-benin-c0-note" class="k-note">Celebrated for its bronze and ivory art</div></div></div>
+    <div id="ch2-egypt" class="clip ground" data-start="26.29" data-duration="5" data-track-index="1" style="z-index:8"><div id="ch2-egypt-kb" class="kb ground-pattern"><div id="ch2-egypt-pat" class="pat"></div><div class="pat-fade"></div></div></div>
+    <div id="ch2-egypt-c0" class="clip card" data-start="27.49" data-duration="3.8" data-track-index="2" style="z-index:109"><div class="center"><div id="ch2-egypt-c0-dates" class="k-dates">c. 3100 – 30 BC</div><div class="k-name"><span id="ch2-egypt-c0-n0">Ancient </span><span id="ch2-egypt-c0-n1">Egypt</span></div><div id="ch2-egypt-c0-note" class="k-note">Pyramids, temples and one of the first writing systems</div></div></div>
+    <div id="ch2-zimbabwe" class="clip ground" data-start="31.29" data-duration="5.17" data-track-index="1" style="z-index:10"><div id="ch2-zimbabwe-kb" class="kb ground-pattern"><div id="ch2-zimbabwe-pat" class="pat"></div><div class="pat-fade"></div></div></div>
+    <div id="ch2-zimbabwe-c0" class="clip card" data-start="32.99" data-duration="3.47" data-track-index="2" style="z-index:111"><div class="center"><div id="ch2-zimbabwe-c0-dates" class="k-dates">c. 1100 – 1450</div><div class="k-name"><span id="ch2-zimbabwe-c0-n0">Great </span><span id="ch2-zimbabwe-c0-n1">Zimbabwe</span></div><div id="ch2-zimbabwe-c0-note" class="k-note">Granite walls raised without mortar</div></div></div>
+    <div id="ch2-throne" class="clip shot" data-start="35.66" data-duration="8.16" data-track-index="1" style="z-index:12"><div id="ch2-throne-kb" class="kb" style="opacity:0"><img id="ch2-throne-img" src="assets/img/mansa-musa-throne.jpg" alt="" style="object-position:50% 35%" /></div></div>
+    <div id="ch2-throne-c0" class="clip card" data-start="37.06" data-duration="6.76" data-track-index="2" style="z-index:113"><div id="ch2-throne-c0-scrim" class="scrim" style="opacity:0;background:linear-gradient(90deg,rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.35) 45%,rgba(0,0,0,0) 70%)"></div><div class="words"><div id="ch2-throne-c0-w0" class="w gold">Trade</div><div id="ch2-throne-c0-w1" class="w gold">Education</div><div id="ch2-throne-c0-w2" class="w gold">Governance</div></div></div>
+    <div id="ch2-host2" class="clip shot" data-start="43.82" data-duration="6" data-track-index="1" style="z-index:14"><div id="ch2-host2-kb" class="kb"><img id="ch2-host2-img" src="assets/img/presenter-crop.jpg" alt="" style="object-position:50% 30%" /></div></div>
+    <div id="ch2-songhai" class="clip shot" data-start="49.02" data-duration="10.98" data-track-index="1" style="z-index:15"><div id="ch2-songhai-kb" class="kb" style="opacity:0"><img id="ch2-songhai-img" src="assets/img/mali-cavalry.jpg" alt="" style="object-position:50% 40%" /></div></div>
+    <div id="ch2-songhai-c0" class="clip card" data-start="51.22" data-duration="5" data-track-index="2" style="z-index:116"><div id="ch2-songhai-c0-box" class="lower"><div id="ch2-songhai-c0-bar" class="bar"></div><div id="ch2-songhai-c0-name" class="l-name">Songhai Empire</div><div id="ch2-songhai-c0-sub" class="l-sub">Gao · c. 1464 – 1591</div></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ch2-kush-kb", { scale: 1.12, xPercent: 3, yPercent: 2 }, { scale: 1, xPercent: 0, yPercent: 0, duration: 15.29, ease: "sine.inOut" }, 0);
+    tl.fromTo("#ch2-kush-kb", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.out" }, 0);
+    tl.fromTo("#ch2-kush-c0-scrim", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0.8);
+    tl.fromTo("#ch2-kush-c0-num", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 0.95);
+    tl.fromTo("#ch2-kush-c0-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "expo.out" }, 1.15);
+    tl.fromTo("#ch2-kush-c0-t0", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 1.3);
+    tl.fromTo("#ch2-kush-c0-t1", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 1.42);
+    tl.fromTo("#ch2-kush-c0-t2", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 1.54);
+    tl.to("#ch2-kush-c0 .center, #ch2-kush-c0-scrim", { opacity: 0, filter: "blur(6px)", duration: 0.4, ease: "power2.in" }, 3.98);
+    tl.fromTo("#ch2-kush-c1-box", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 11.89);
+    tl.fromTo("#ch2-kush-c1-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.6, ease: "expo.out" }, 11.89);
+    tl.fromTo("#ch2-kush-c1-name", { opacity: 0, x: -24, filter: "blur(6px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 11.99);
+    tl.fromTo("#ch2-kush-c1-sub", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 12.24);
+    tl.to("#ch2-kush-c1-box", { opacity: 0, duration: 0.35, ease: "power2.in" }, 14.71);
+    tl.fromTo("#ch2-mali-kb", { scale: 1, xPercent: 0, yPercent: 0 }, { scale: 1.1, xPercent: -3, yPercent: -1, duration: 6.8, ease: "sine.inOut" }, 14.49);
+    tl.fromTo("#ch2-mali-kb", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "sine.inOut" }, 14.49);
+    tl.fromTo("#ch2-mali-c0-box", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 16.29);
+    tl.fromTo("#ch2-mali-c0-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.6, ease: "expo.out" }, 16.29);
+    tl.fromTo("#ch2-mali-c0-name", { opacity: 0, x: -24, filter: "blur(6px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 16.39);
+    tl.fromTo("#ch2-mali-c0-sub", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 16.64);
+    tl.to("#ch2-mali-c0-box", { opacity: 0, duration: 0.35, ease: "power2.in" }, 20.91);
+    tl.fromTo("#ch2-benin-pat", { x: 0, y: 0 }, { x: -260, y: -130, duration: 5, ease: "none" }, 21.29);
+    tl.fromTo("#ch2-benin-c0-n0", { opacity: 0, filter: "blur(12px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 22.49);
+    tl.fromTo("#ch2-benin-c0-n1", { opacity: 0, filter: "blur(12px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 22.59);
+    tl.fromTo("#ch2-benin-c0-n2", { opacity: 0, filter: "blur(12px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 22.69);
+    tl.fromTo("#ch2-benin-c0-dates", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 22.74);
+    tl.fromTo("#ch2-benin-c0-note", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 23.09);
+    tl.to("#ch2-benin-c0 .center", { opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "power2.in" }, 25.97);
+    tl.fromTo("#ch2-egypt-pat", { x: 0, y: 0 }, { x: -260, y: -130, duration: 5, ease: "none" }, 26.29);
+    tl.fromTo("#ch2-egypt-c0-n0", { opacity: 0, filter: "blur(12px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 27.49);
+    tl.fromTo("#ch2-egypt-c0-n1", { opacity: 0, filter: "blur(12px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 27.59);
+    tl.fromTo("#ch2-egypt-c0-dates", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 27.74);
+    tl.fromTo("#ch2-egypt-c0-note", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 28.09);
+    tl.to("#ch2-egypt-c0 .center", { opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "power2.in" }, 30.97);
+    tl.fromTo("#ch2-zimbabwe-pat", { x: 0, y: 0 }, { x: -260, y: -130, duration: 5.17, ease: "none" }, 31.29);
+    tl.fromTo("#ch2-zimbabwe-c0-n0", { opacity: 0, filter: "blur(12px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 32.99);
+    tl.fromTo("#ch2-zimbabwe-c0-n1", { opacity: 0, filter: "blur(12px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 33.09);
+    tl.fromTo("#ch2-zimbabwe-c0-dates", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 33.24);
+    tl.fromTo("#ch2-zimbabwe-c0-note", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 33.59);
+    tl.to("#ch2-zimbabwe-c0 .center", { opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "power2.in" }, 36.14);
+    tl.fromTo("#ch2-throne-kb", { scale: 1, xPercent: 0, yPercent: 0 }, { scale: 1.1, xPercent: 0, yPercent: 3, duration: 8.16, ease: "sine.inOut" }, 35.66);
+    tl.fromTo("#ch2-throne-kb", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "sine.inOut" }, 35.66);
+    tl.fromTo("#ch2-throne-c0-scrim", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 37.06);
+    tl.fromTo("#ch2-throne-c0-w0", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 40.01);
+    tl.fromTo("#ch2-throne-c0-w1", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 40.92);
+    tl.fromTo("#ch2-throne-c0-w2", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 41.88);
+    tl.to("#ch2-throne-c0 .words, #ch2-throne-c0-scrim", { opacity: 0, filter: "blur(6px)", duration: 0.35, ease: "power2.in" }, 43.44);
+    tl.fromTo("#ch2-host2-kb", { scale: 1.06, xPercent: 0, yPercent: 1 }, { scale: 1, xPercent: 0, yPercent: 0, duration: 6, ease: "sine.inOut" }, 43.82);
+    tl.fromTo("#ch2-songhai-kb", { scale: 1, xPercent: 0, yPercent: 0 }, { scale: 1.16, xPercent: -4, yPercent: 4, duration: 10.98, ease: "sine.inOut" }, 49.02);
+    tl.fromTo("#ch2-songhai-kb", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "sine.inOut" }, 49.02);
+    tl.to("#ch2-songhai-kb", { opacity: 0, duration: 0.6, ease: "power2.in" }, 59.36);
+    tl.fromTo("#ch2-songhai-c0-box", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 51.22);
+    tl.fromTo("#ch2-songhai-c0-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.6, ease: "expo.out" }, 51.22);
+    tl.fromTo("#ch2-songhai-c0-name", { opacity: 0, x: -24, filter: "blur(6px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 51.32);
+    tl.fromTo("#ch2-songhai-c0-sub", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 51.57);
+    tl.to("#ch2-songhai-c0-box", { opacity: 0, duration: 0.35, ease: "power2.in" }, 55.84);
+    window.__timelines["ch2"] = tl;
+  </script>
+</template>

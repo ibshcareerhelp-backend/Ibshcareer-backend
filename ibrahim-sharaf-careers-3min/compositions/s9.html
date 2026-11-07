@@ -1,0 +1,41 @@
+<template>
+  <style>
+  #root { position: absolute; inset: 0; overflow: hidden; background: #ffffff; font-family: "Inter", sans-serif; color: #1a4fd6; }
+  #wrap { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; background: linear-gradient(160deg, #ffffff 0%, #f6f9fd 60%, #eaf0f8 100%); }
+  #bgpan { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+  .glow { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; background: radial-gradient(ellipse at 78% 30%, rgba(242,107,15,0.20) 0%, rgba(242,107,15,0) 55%); }
+  .vig { display: none; }
+  .brand { position: absolute; left: 90px; top: 62px; display: flex; align-items: center; gap: 18px; }
+  .brand span { font: 700 22px "Inter"; letter-spacing: 0.32em; color: #1a4fd6; }
+  .abs { position: absolute; }
+  .gold { background: linear-gradient(180deg, #2f6bf5 0%, #1a4fd6 55%, #0f3399 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .serif { font-family: "Playfair Display", serif; }
+  .eyebrow { font: 700 26px "Inter"; letter-spacing: 0.4em; text-transform: uppercase; color: #e0560a; }
+  .rule { height: 3px; background: #f26b0f; transform-origin: 0% 50%; }
+  .w { display: inline-block; white-space: pre; }
+
+  </style>
+  <div id="root" data-composition-id="s9" data-width="1920" data-height="1080">
+    <div id="wrap">
+      <div id="bgpan"><div style="position:absolute;left:90px;right:90px;top:128px;height:2px;background:linear-gradient(90deg,#f26b0f,rgba(242,107,15,0))"></div><div style="position:absolute;left:90px;right:90px;bottom:34px;height:2px;background:linear-gradient(270deg,#f26b0f,rgba(242,107,15,0))"></div></div>
+      <div class="vig"></div>
+      <div class="brand"><div><img src="assets/img/logo-mark.png" alt="" style="height:54px;width:auto;display:block" /></div><span>IBRAHIM SHARAF CAREERS</span></div>
+      <div id="s9-eyebrow" class="abs eyebrow" style="left:150px;top:230px">Our approach</div>
+      <div id="s9-q" class="abs serif" style="left:150px;top:330px;width:1500px;font-size:92px;font-weight:700;line-height:1.14">A strong career is not built by chance.</div>
+      <div id="s9-s0" class="abs" style="left:150px;top:340px;width:380px;height:420px;border-radius:22px;background:#ffffff;border:2px solid rgba(242,107,15,0.7);box-shadow:0 18px 44px rgba(26,79,214,0.14);padding:40px 34px;opacity:0"><div class="serif gold" style="font-size:80px;font-weight:700">01</div><div class="serif" style="font-size:42px;font-weight:700;line-height:1.2;margin-top:24px">Listen to your goals</div></div><div id="s9-s1" class="abs" style="left:570px;top:340px;width:380px;height:420px;border-radius:22px;background:#ffffff;border:2px solid rgba(242,107,15,0.7);box-shadow:0 18px 44px rgba(26,79,214,0.14);padding:40px 34px;opacity:0"><div class="serif gold" style="font-size:80px;font-weight:700">02</div><div class="serif" style="font-size:42px;font-weight:700;line-height:1.2;margin-top:24px">Strengthen how you present yourself</div></div><div id="s9-s2" class="abs" style="left:990px;top:340px;width:380px;height:420px;border-radius:22px;background:#ffffff;border:2px solid rgba(242,107,15,0.7);box-shadow:0 18px 44px rgba(26,79,214,0.14);padding:40px 34px;opacity:0"><div class="serif gold" style="font-size:80px;font-weight:700">03</div><div class="serif" style="font-size:42px;font-weight:700;line-height:1.2;margin-top:24px">Find the right opportunities</div></div><div id="s9-s3" class="abs" style="left:1410px;top:340px;width:380px;height:420px;border-radius:22px;background:#ffffff;border:2px solid rgba(242,107,15,0.7);box-shadow:0 18px 44px rgba(26,79,214,0.14);padding:40px 34px;opacity:0"><div class="serif gold" style="font-size:80px;font-weight:700">04</div><div class="serif" style="font-size:42px;font-weight:700;line-height:1.2;margin-top:24px">Support you through the process</div></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#bgpan", { scale: 1, transformOrigin: "50% 100%" }, { scale: 1.05, duration: 22.289999999999992, ease: "none" }, 0);
+    tl.fromTo("#wrap", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "sine.inOut" }, 0);
+    tl.fromTo("#s9-eyebrow", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "expo.out" }, 0.5);
+    tl.fromTo("#s9-q", { opacity: 0, y: 40, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, ease: "expo.out" }, 0.5);
+    tl.to("#s9-q", { opacity: 0, duration: 0.5, ease: "power2.in" }, 10.26);
+    tl.fromTo("#s9-s0", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.7, ease: "expo.out" }, 12.01);
+    tl.fromTo("#s9-s1", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.7, ease: "expo.out" }, 13.83);
+    tl.fromTo("#s9-s2", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.7, ease: "expo.out" }, 16.01);
+    tl.fromTo("#s9-s3", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.7, ease: "expo.out" }, 18.55);
+    window.__timelines["s9"] = tl;
+  </script>
+</template>

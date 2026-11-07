@@ -1,0 +1,38 @@
+<template>
+  <style>
+  #root { position: absolute; inset: 0; overflow: hidden; background: #ffffff; font-family: "Inter", sans-serif; color: #1a4fd6; }
+  #wrap { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; background: linear-gradient(160deg, #ffffff 0%, #f6f9fd 60%, #eaf0f8 100%); }
+  #bgpan { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+  .glow { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; background: radial-gradient(ellipse at 78% 30%, rgba(242,107,15,0.20) 0%, rgba(242,107,15,0) 55%); }
+  .vig { display: none; }
+  .brand { position: absolute; left: 90px; top: 62px; display: flex; align-items: center; gap: 18px; }
+  .brand span { font: 700 22px "Inter"; letter-spacing: 0.32em; color: #1a4fd6; }
+  .abs { position: absolute; }
+  .gold { background: linear-gradient(180deg, #2f6bf5 0%, #1a4fd6 55%, #0f3399 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .serif { font-family: "Playfair Display", serif; }
+  .eyebrow { font: 700 26px "Inter"; letter-spacing: 0.4em; text-transform: uppercase; color: #e0560a; }
+  .rule { height: 3px; background: #f26b0f; transform-origin: 0% 50%; }
+  .w { display: inline-block; white-space: pre; }
+
+  </style>
+  <div id="root" data-composition-id="s6" data-width="1920" data-height="1080">
+    <div id="wrap">
+      <div id="bgpan"><div style="position:absolute;left:90px;right:90px;top:128px;height:2px;background:linear-gradient(90deg,#f26b0f,rgba(242,107,15,0))"></div><div style="position:absolute;left:90px;right:90px;bottom:34px;height:2px;background:linear-gradient(270deg,#f26b0f,rgba(242,107,15,0))"></div></div>
+      <div class="vig"></div>
+      <div class="brand"><div><img src="assets/img/logo-mark.png" alt="" style="height:54px;width:auto;display:block" /></div><span>IBRAHIM SHARAF CAREERS</span></div>
+      <div id="s6-eyebrow" class="abs eyebrow" style="left:150px;top:270px">03 · Opportunity Support</div>
+      <div id="s6-h" class="abs serif" style="left:150px;top:310px;width:820px;font-size:66px;font-weight:700;line-height:1.1">Opportunities that truly matter.</div><div id="s6-bu0" class="abs" style="left:150px;top:520px;width:800px;display:flex;align-items:center;gap:22px"><div style="flex:none;width:16px;height:16px;border-radius:50%;background:#f26b0f"></div><div class="serif" style="font-size:46px;font-weight:700;line-height:1.15">Roles that fit your goals</div></div><div id="s6-bu1" class="abs" style="left:150px;top:632px;width:800px;display:flex;align-items:center;gap:22px"><div style="flex:none;width:16px;height:16px;border-radius:50%;background:#f26b0f"></div><div class="serif" style="font-size:46px;font-weight:700;line-height:1.15">Time spent where it matters</div></div><div id="s6c" class="abs" style="left:1000px;top:250px;width:780px;height:439px;border-radius:20px;overflow:hidden;border:3px solid #f26b0f;box-shadow:0 24px 56px rgba(26,79,214,0.22);opacity:0"><video id="s6c-v" class="clip" src="assets/video/laptop2.mp4" muted playsinline data-start="0.6" data-duration="9.71" data-media-start="0" data-playback-rate="0.73" data-track-index="2" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover"></video></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#bgpan", { scale: 1, transformOrigin: "50% 100%" }, { scale: 1.05, duration: 10.929999999999993, ease: "none" }, 0);
+    tl.fromTo("#wrap", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "sine.inOut" }, 0);
+    tl.fromTo("#s6-eyebrow", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "expo.out" }, 0.89);
+    tl.fromTo("#s6-h", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, ease: "expo.out" }, 1.68);
+    tl.fromTo("#s6-bu0", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, ease: "expo.out" }, 2.86);
+    tl.fromTo("#s6-bu1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, ease: "expo.out" }, 6);
+    tl.fromTo("#s6c", { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" }, 0.6);
+    window.__timelines["s6"] = tl;
+  </script>
+</template>

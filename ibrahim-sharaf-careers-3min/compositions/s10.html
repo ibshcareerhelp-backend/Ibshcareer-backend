@@ -1,0 +1,42 @@
+<template>
+  <style>
+  #root { position: absolute; inset: 0; overflow: hidden; background: #ffffff; font-family: "Inter", sans-serif; color: #1a4fd6; }
+  #wrap { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; background: linear-gradient(160deg, #ffffff 0%, #f6f9fd 60%, #eaf0f8 100%); }
+  #bgpan { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+  .glow { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; background: radial-gradient(ellipse at 78% 30%, rgba(242,107,15,0.20) 0%, rgba(242,107,15,0) 55%); }
+  .vig { display: none; }
+  .brand { position: absolute; left: 90px; top: 62px; display: flex; align-items: center; gap: 18px; }
+  .brand span { font: 700 22px "Inter"; letter-spacing: 0.32em; color: #1a4fd6; }
+  .abs { position: absolute; }
+  .gold { background: linear-gradient(180deg, #2f6bf5 0%, #1a4fd6 55%, #0f3399 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .serif { font-family: "Playfair Display", serif; }
+  .eyebrow { font: 700 26px "Inter"; letter-spacing: 0.4em; text-transform: uppercase; color: #e0560a; }
+  .rule { height: 3px; background: #f26b0f; transform-origin: 0% 50%; }
+  .w { display: inline-block; white-space: pre; }
+
+  </style>
+  <div id="root" data-composition-id="s10" data-width="1920" data-height="1080">
+    <div id="wrap">
+      <div id="bgpan"><div style="position:absolute;left:90px;right:90px;top:128px;height:2px;background:linear-gradient(90deg,#f26b0f,rgba(242,107,15,0))"></div><div style="position:absolute;left:90px;right:90px;bottom:34px;height:2px;background:linear-gradient(270deg,#f26b0f,rgba(242,107,15,0))"></div></div>
+      <div class="vig"></div>
+      <div class="brand"><div><img src="assets/img/logo-mark.png" alt="" style="height:54px;width:auto;display:block" /></div><span>IBRAHIM SHARAF CAREERS</span></div>
+      <div id="s10h" class="abs" style="left:1090px;top:190px;width:700px;height:700px;border-radius:26px;overflow:hidden;border:3px solid #f26b0f;box-shadow:0 24px 56px rgba(26,79,214,0.22)"><video id="s10h-v" class="clip" src="assets/video/talk-s10.mp4" muted playsinline data-start="0" data-duration="24.11" data-media-start="0" data-playback-rate="1" data-track-index="2" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover"></video></div>
+      <div id="s10-name" class="abs" style="left:150px;top:250px;opacity:0"><div class="eyebrow">Ibrahim Sharaf</div><div style="font:400 30px Inter;color:#4b5a7a;letter-spacing:0.04em;margin-top:10px">Ibrahim Sharaf Careers</div></div>
+      <div id="s10-p0" class="abs serif" style="left:150px;top:420px;width:880px;font-size:82px;font-weight:700;line-height:1.12;opacity:0">Every professional has a story worth telling.</div><div id="s10-p1" class="abs serif" style="left:150px;top:420px;width:880px;font-size:82px;font-weight:700;line-height:1.12;opacity:0">You do not have to move forward alone.</div><div id="s10-p2" class="abs serif" style="left:150px;top:420px;width:880px;font-size:100px;font-weight:700;line-height:1.12;opacity:0">Let's move your career forward.</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#bgpan", { scale: 1, transformOrigin: "50% 100%" }, { scale: 1.05, duration: 24.26000000000002, ease: "none" }, 0);
+    tl.fromTo("#wrap", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "sine.inOut" }, 0);
+    tl.fromTo("#s10-name", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, ease: "expo.out" }, 9.69);
+    tl.fromTo("#s10-p0", { opacity: 0, y: 40, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "expo.out" }, 0.5);
+    tl.to("#s10-p0", { opacity: 0, duration: 0.4, ease: "power2.in" }, 12.23);
+    tl.fromTo("#s10-p1", { opacity: 0, y: 40, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "expo.out" }, 12.73);
+    tl.to("#s10-p1", { opacity: 0, duration: 0.4, ease: "power2.in" }, 19.8);
+    tl.fromTo("#s10-p2", { opacity: 0, y: 40, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "expo.out" }, 20.3);
+    tl.fromTo("#s10h", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.9, ease: "expo.out" }, 0.4);
+    tl.fromTo("#s10h-img", { scale: 1.0 }, { scale: 1.03, duration: 23.76000000000002, ease: "none" }, 0.4);
+    window.__timelines["s10"] = tl;
+  </script>
+</template>
